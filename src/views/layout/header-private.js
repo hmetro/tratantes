@@ -1,19 +1,43 @@
-const HeaderPrivate = {
-    mom: moment(),
-    date: "",
-    watch: "",
+class HeaderPrivate {
+    mom;
+    date;
+    watch;
+
+    constructor() {
+        this.mom = moment();
+    }
+
+    set _setTime({ }) {
+
+        this.watch = this.mom.format('LT');
 
 
-    oninit: () => {
-        HeaderPrivate.mom.locale('es');
-        var _t = HeaderPrivate.mom.format('LT');
-        if (_t !== HeaderPrivate.watch) {
-            HeaderPrivate.watch = HeaderPrivate.mom.format('LT');
+
+    }
+
+    get _getTime() {
+        return this.watch;
+    }
+
+    oninit() {
+        this.mom.locale('es');
+        var _t = this.mom.format('LT');
+        if (_t !== this.watch) {
+            this.watch = this.mom.format('dddd, DD-MM-YYYY');
+
+
         }
 
-    },
 
-    view: () => {
+
+    }
+
+
+
+
+
+
+    view() {
 
         return [
             m("header",
@@ -43,12 +67,12 @@ const HeaderPrivate = {
                                 m("img.d-block.d-md-none[src='assets/images/logo-white.png'][alt='']"),
                                 m("ul.navbar-nav.bcbd_nav", [
 
-                                    m("li.nav-item.d-none",
+                                    m("li.nav-item",
 
                                         [
                                             m("a.nav-link", [
-                                                m("div.watch.text-dark2.text-right", HeaderPrivate.watch),
-                                                m("div.watch.text-dark2.text-capitalize", HeaderPrivate.date)
+                                                m("div.watch.text-dark2.text-right", this._getTime),
+                                                m("div.watch.text-dark2.text-capitalize", this.date)
                                             ])
                                         ]
                                     )
@@ -69,7 +93,7 @@ const HeaderPrivate = {
             ),
 
         ];
-    },
+    }
 
 };
 

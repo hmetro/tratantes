@@ -1,12 +1,12 @@
-# mithril-starter-kit
+# MetroVirtual para Pacientes
 A boilerplate Mithril application with ES6+, Babel, Webpack 4, Less, Webpack dev server hot reload
 
 ### Use
 ```shell
 
-git clone https://github.com/mojowork/mithril-starter-kit
+git clone https://github.com/hmetro/pacientes
 
-cd mithril-starter-kit
+cd pacientes
 
 npm install
 

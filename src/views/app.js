@@ -1,23 +1,54 @@
 import Auth from '../models/auth';
 import Loader from './loader';
 
+class App {
+    title;
+    page;
+    constructor() {
+        this.page = ' | MetroVirtual para Pacientes';
+    }
 
-const App = {
-    title: "Metrovirtual para Médicos",
-    oninit: () => {
-        document.title = "Cargando...";
-    },
-    oncreate: () => {
-        document.title = "Bienvenido | " + App.title;
-    },
-    isAuth: () => {
+    get _getTitle() {
+        return this.title;
+    }
+
+    set _setTitle(title) {
+        this.title = title + this.page;
+        document.title = this._getTitle;
+
+    }
+
+
+
+    oninit() {
+        this._setTitle = "Cargando...";
+        this.view = this._l;
+        let $this = this;
+        setTimeout(function () {
+            $this.isAuth();
+        }, 100)
+
+    }
+
+    oncreate() {
+        this.mainLayout();
+    }
+
+    isAuth() {
         if (Auth.isLogin()) {
             return m.route.set('/inicio');
         } else {
             return m.route.set('/auth');
         }
-    },
-    mainLayout: () => {
+    }
+
+    _l() {
+        return [
+            m(Loader, { loaderPage: true }),
+        ];
+    }
+
+    mainLayout() {
         //Global Variables
         var windowHeight = $(window).height();
         var windowWidth = $(window).width();
@@ -538,14 +569,16 @@ const App = {
             });
         });
 
-    },
-    view: () => {
-        return [
-            m(Loader),
-            setTimeout(function () { App.isAuth() }, 300)
-        ];
-    },
+    }
+
+    view() {
+
+    }
+
+
+
 };
+
 
 
 

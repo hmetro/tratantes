@@ -3,17 +3,18 @@ import HeaderPrivate from '../layout/header-private';
 import PageResultadoImagen from './pageResultado';
 import App from '../app';
 
-const ResultadoImagen = {
-    oninit: () => {
+class ResultadoImagen extends App {
+    constructor() {
+        super();
+    }
+
+    oninit() {
         if (!Auth.isLogin()) {
             return m.route.set('/auth');
         }
-    },
-    oncreate: () => {
-        document.title = "Ver Resultado | " + App.title;
-        App.mainLayout();
-    },
-    view: () => {
+    }
+
+    view() {
         return [
             m(HeaderPrivate),
             m(PageResultadoImagen),
@@ -42,10 +43,8 @@ const ResultadoImagen = {
                 )
             ])
         ];
-    },
-
-};
-
+    }
+}
 
 
 

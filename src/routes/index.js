@@ -25,9 +25,8 @@ const Routes = {
     '/auth': Login, // Login
     '/pacientes': Pacientes, // Pacientes
     '/paciente/:nhc': Paciente, // Pacientes
-    '/resultados': Resultados, // Resultados
     '/resultados/paciente/:nhc': ResultadoPaciente, // Resultados de Paciente
-    '/resultados/imagen': ResultadosImagen, // Resultados de Paciente
+    '/resultados': ResultadosImagen, // Resultados de Paciente
     '/resultado/imagen/:id': ResultadoImagen, // Resultado de Paciente
     '/mi-perfil': MiPerfil, // MiPerfil
     '/salir': Salir, // Salir

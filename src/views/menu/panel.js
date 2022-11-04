@@ -1,12 +1,11 @@
 var _modulos_ = [
-    { id: 1, title: "Resultados de Imagen ", icon: "doctor", url: "/resultados/imagen" },
-    { id: 2, title: "Resultados de Laboratorio", icon: "doctor", url: "/resultados/laboratorio" },
-    { id: 3, title: "Mis Facturas", icon: "doctor", url: "/mis-facturas" },
+    { id: 1, title: "Mis Resultados", icon: "doctor", url: "/resultados" },
+    { id: 2, title: "Mis Facturas", icon: "doctor", url: "/mis-facturas" },
 
 ];
 
-const Modulos = {
-    view: () => {
+class Modulos {
+    view() {
         return _modulos_.map(function (i) {
 
             if (i.id == 1) {
@@ -66,12 +65,12 @@ const Modulos = {
 
 
         })
-    },
+    }
 }
 
-const MenuPanel = {
+class MenuPanel {
 
-    view: () => {
+    view() {
 
         return [
             m("section.m-bg-1",
@@ -99,7 +98,7 @@ const MenuPanel = {
                 ])
             )
         ];
-    },
+    }
 
 };
 
