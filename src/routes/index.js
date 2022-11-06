@@ -5,14 +5,11 @@ import Login from '../views/login/login'
 import Inicio from '../views/inicio/inicio'
 import Pacientes from '../views/pacientes/pacientes';
 import Paciente from '../views/paciente/paciente';
-import Resultados from '../views/resultados/resultados';
-import ResultadoPaciente from '../views/paciente/resultadosPaciente';
-
-
+import ResultadosPaciente from '../views/paciente/resultados';
 import MiPerfil from '../views/perfil/perfil';
 import _404 from '../views/404'
-import ResultadosImagen from '../views/imagen/resultados';
-import ResultadoImagen from '../views/imagen/resultado';
+import ResultadosPacientePrivate from '../views/paciente/resultadosPrivate';
+import VisorLab from '../views/visor/visorLab';
 
 
 
@@ -24,10 +21,9 @@ const Routes = {
     '/inicio': Inicio, //Inicio
     '/auth': Login, // Login
     '/pacientes': Pacientes, // Pacientes
-    '/paciente/:nhc': Paciente, // Pacientes
-    '/resultados/paciente/:nhc': ResultadoPaciente, // Resultados de Paciente
-    '/resultados': ResultadosImagen, // Resultados de Paciente
-    '/resultado/imagen/:id': ResultadoImagen, // Resultado de Paciente
+    '/resultados/paciente/:nhc': ResultadosPaciente, // Resultados de Paciente
+    '/resultados': ResultadosPacientePrivate, // Resultados de Paciente
+    '/resultado/l/:id': VisorLab, // Resultado de Paciente
     '/mi-perfil': MiPerfil, // MiPerfil
     '/salir': Salir, // Salir
     "/:404...": _404

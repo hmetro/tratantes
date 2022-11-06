@@ -390,6 +390,30 @@ class PageResultadosImagen {
                         ])
                     )
                 ),
+                m("footer", [
+
+                    m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
+                        m("div.container",
+                            m("div.row",
+                                m("div.col-md-12", [
+                                    m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                    m("p.mb-1.mt-1", [
+                                        m.trust("&copy;"),
+                                        new Date().getFullYear() + ". Todos los derechos reservados."
+                                    ])
+
+                                ]
+
+                                )
+                            )
+                        )
+                    ),
+                    m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
+                        m("div.container",
+
+                        )
+                    )
+                ]),
                 m(ButtonHelp),
                 m("div.button-menu-center.text-center",
                     m("a.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[href='/']", [
@@ -440,30 +464,7 @@ class ResultadosImagen extends App {
         return [
             m(HeaderPrivate),
             m(PageResultadosImagen),
-            m("footer", [
 
-                m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
-                    m("div.container",
-                        m("div.row",
-                            m("div.col-md-12", [
-                                m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
-                                m("p.mb-1.mt-1", [
-                                    m.trust("&copy;"),
-                                    new Date().getFullYear() + ". Todos los derechos reservados."
-                                ])
-
-                            ]
-
-                            )
-                        )
-                    )
-                ),
-                m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
-                    m("div.container",
-
-                    )
-                )
-            ])
         ];
     }
 

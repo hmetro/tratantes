@@ -59,6 +59,8 @@ class Loader {
                 ),
 
             ),
+            m(ButtonReload),
+
         ];
     }
 

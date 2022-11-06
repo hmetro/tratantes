@@ -71,8 +71,7 @@ class HeaderPrivate {
 
                                         [
                                             m("a.nav-link", [
-                                                m("div.watch.text-dark2.text-right", this._getTime),
-                                                m("div.watch.text-dark2.text-capitalize", this.date)
+                                                m("div.watch.text-dark2.text-capitalize", this._getTime)
                                             ])
                                         ]
                                     )

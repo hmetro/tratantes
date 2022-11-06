@@ -44,7 +44,7 @@ const Auth = {
         Auth.setProcess();
         return m.request({
             method: "POST",
-            url: "https://api.hospitalmetropolitano.org/t/v1/auth",
+            url: "https://api.hospitalmetropolitano.org/v2/pacientes/auth",
             body: {
                 user: Auth.username,
                 pass: Auth.password
