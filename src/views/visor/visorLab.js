@@ -4,6 +4,11 @@ import Loader from '../loader';
 import printJS from 'print-js';
 import Auth from '../../models/auth';
 
+const ButtonHelp = {
+    help: false,
+
+};
+
 
 class verDocPDF {
     static url = "";
@@ -347,11 +352,77 @@ class Laboratorio {
                     "Hospital Metropolitano"
                 ),
 
+                m("div", {
+                    class: (ButtonHelp.help ? '' : 'd-none')
+                },
+                    m("div.row",
+                        m("div.col-md-6.offset-md-3",
+                            m("div.text-center", [
+                                m("h2.m-0.text-dark",
+                                    "Ayuda"
+                                ),
+                                m("span.d-inline-block.text-active.mt-3.active", 'Soporte Metrovirtual: ¡Estamos aquí, para lo que necesites!.')
+                            ])
+                        )
+                    ),
 
+
+                    m("div.row.m-pt-20.m-pb-60.m-mt-20", [
+                        m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
+                            m("div.row.m-mb-60.m-mt-10.", [
+                                m("div.col-12",
+                                    m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
+                                        m("span.position-absolute.flaot-icon",
+                                            m("i.icofont-stethoscope-alt.text-active")
+                                        ),
+                                        m("h5.m-text-2.mb-3",
+                                            m("p.designation", [
+                                                " ¿No encuentro mi resultado? ",
+                                            ]),
+                                        ),
+
+                                    ]),
+                                    m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
+                                        m("span.position-absolute.flaot-icon",
+                                            m("i.icofont-stethoscope-alt.text-active")
+                                        ),
+                                        m("h5.m-text-2.mb-3",
+                                            m("p.designation.", [
+                                                " Necesito un resultado anterior al 2019",
+                                            ]),
+                                        ),
+
+                                    ]),
+                                    m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
+                                        m("span.position-absolute.flaot-icon",
+                                            m("i.icofont-stethoscope-alt.text-active")
+                                        ),
+                                        m("h5.m-text-2.mb-3",
+                                            m("p.designation", [
+                                                " Solicitar duplicado en físico (CD) (USB) a Domicilio. ",
+                                            ]),
+                                        ),
+
+                                    ])
+                                ),
+
+
+                            ]),
+                            m("div.row",
+                                m("div.col-md-12.text-center.m-mb-50",
+                                    m("a.btn.bordered-blue.fadeInDown-slide.animated.medim-btn.btn-bordered.mt-0.text-medium.radius-pill.bg-transparent.text-active.text-uppercase.[href='#!/salir']",
+                                        " Salir "
+                                    )
+                                )
+                            )
+                        ),
+
+                    ])
+                ),
                 m("div.row.p-1",
 
                     m(verDocPDF),
-                )
+                ),
             ]),
         ] : [
             m(".tab-pane.mt-5.fade.active.show[id='v-pills-lab'][role='tabpanel']", [
@@ -439,19 +510,14 @@ class MenuBoton {
                         ((!(window.matchMedia('(min-width: 1320px)').matches)) ? [
 
                             m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Imprimir"),
+                                m("div.text-primary.mr-2", "Compartir"),
                                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
                                         e.preventDefault();
-                                        printJS({
-                                            printable: verDocPDF.url,
-                                            type: 'pdf',
-
-                                        })
-
+                                        ButtonHelp.help = !ButtonHelp.help;
                                     },
                                 },
-                                    m("i.icofont-print", { "style": { "font-size": "x-large" } })
+                                    m("i.icofont-share", { "style": { "font-size": "x-large" } })
                                 )
                             ]),
                         ] : [
@@ -469,6 +535,17 @@ class MenuBoton {
                                     },
                                 },
                                     m("i.icofont-print", { "style": { "font-size": "x-large" } })
+                                )
+                            ]),
+                            m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
+                                m("div.text-primary.mr-2", "Compartir"),
+                                m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                                    onclick: (e) => {
+                                        e.preventDefault();
+                                        ButtonHelp.help = !ButtonHelp.help;
+                                    },
+                                },
+                                    m("i.icofont-share", { "style": { "font-size": "x-large" } })
                                 )
                             ]),
 
@@ -657,7 +734,7 @@ class DetalleClinico {
             m('p', 'error')
         ] : (DetalleClinico.data.length !== 0) ? [
             m("section.intro-area.type-1.position-relative", {
-                class: "bg-white m-bg-1",
+                class: "m-bg-1",
             }, [
                 m("div.container", {
                     class: "bg-white",
