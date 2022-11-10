@@ -1,8 +1,8 @@
 import Auth from '../../models/auth';
 
-const FormLogin = {
+class FormLogin {
 
-    view: () => {
+    view() {
 
         return [
             m("section.m-pt-10.m-pb-90.m-bg-1",
@@ -23,7 +23,7 @@ const FormLogin = {
                     m("div.row",
                         m("div.col-md-12.text-center.", [
                             m("div.loader-content." + ((Auth.messageError === "Procesando...") ? "" : "d-none"),
-                                m("span.icon-section-wave.d-inline-block.text-active.mt-3.",)
+                                m("span.icon-section-wave.d-inline-block.text-active.mt-3.", )
                             ),
                             m("div." + ((Auth.messageError === "Procesando..." || Auth.statusHide) ? "d-none" : "") + ".alert.alert-solid.response.alert-" + Auth.statusError + "[role='alert']",
                                 Auth.messageError
@@ -33,22 +33,22 @@ const FormLogin = {
 
                             m("div.input-group.banenr-seach.bg-white.m-mt-40.mb-0", [
                                 m("input.form-control[type='text'][placeholder='Usuario']", {
-                                    oninput: function (e) { Auth.setUsername(e.target.value) },
+                                    oninput: function(e) { Auth.setUsername(e.target.value) },
                                     value: Auth.username,
                                     disabled: Auth.imputDisabled,
                                 }),
                             ]),
                             m("div.input-group.banenr-seach.bg-white.m-mt-20.mb-0", [
                                 m("input.form-control[type='password'][placeholder='Contraseña']", {
-                                    oninput: function (e) { Auth.setPassword(e.target.value) },
+                                    oninput: function(e) { Auth.setPassword(e.target.value) },
                                     value: Auth.password,
                                     disabled: Auth.imputDisabled,
                                 }),
                                 m("div.input-group-append",
                                     m("button.btn[type='button']", {
-                                        disabled: !Auth.canSubmit() || Auth.imputDisabled,
-                                        onclick: Auth.login
-                                    },
+                                            disabled: !Auth.canSubmit() || Auth.imputDisabled,
+                                            onclick: Auth.login
+                                        },
                                         "Entrar"
                                     )
                                 )
@@ -61,7 +61,7 @@ const FormLogin = {
             ),
 
         ];
-    },
+    }
 
 };
 

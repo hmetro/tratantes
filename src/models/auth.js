@@ -4,59 +4,59 @@ import _Error_ from '../views/error';
 
 
 
-const Auth = {
-    username: "",
-    password: "",
-    messageError: "",
-    statusHide: " d-none",
-    statusError: "warning",
-    imputDisabled: false,
-    rol: 0,
-    codMedico: "",
-    setUsername: (value) => {
+class Auth {
+    username = "";
+    password = "";
+    messageError = "";
+    statusHide = " d-none";
+    statusError = "warning";
+    imputDisabled = false;
+    rol = 0;
+    codMedico = "";
+    static setUsername(value) {
         Auth.username = value
-    },
-    setPassword: (value) => {
+    }
+    static setPassword(value) {
         Auth.password = value
-    },
-    canSubmit: () => {
+    }
+    static canSubmit() {
         return Auth.username !== "" && Auth.password !== "";
-    },
-    setError: (message) => {
+    }
+    static setError(message) {
         Auth.statusHide = "";
         Auth.statusError = "danger";
         Auth.messageError = message;
 
-    },
-    setSuccess: (message) => {
+    }
+    static setSuccess(message) {
         Auth.statusHide = "";
         Auth.statusError = "success";
         Auth.messageError = message;
 
-    },
-    setProcess: () => {
+    }
+    static setProcess() {
         Auth.statusHide = "";
         Auth.statusError = "warning";
         Auth.messageError = 'Procesando...';
-    },
-    login: () => {
+    }
+    static login() {
         Auth.imputDisabled = true;
         Auth.setProcess();
         return m.request({
-            method: "POST",
-            url: "https://api.hospitalmetropolitano.org/v2/pacientes/auth",
-            body: {
-                user: Auth.username,
-                pass: Auth.password
-            }
-        })
-            .then(function (data) {
+                method: "POST",
+                url: "https://api.hospitalmetropolitano.org/v2/pacientes/auth",
+                body: {
+                    user: Auth.username,
+                    pass: Auth.password
+                }
+            })
+            .then(function(data) {
 
                 if (data.status) {
                     window.localStorage.accessToken = data.jwt;
 
                     Auth.setSuccess('Bienvenido');
-                    setTimeout(function () {
+                    setTimeout(function() {
                         Auth.imputDisabled = false;
                         Auth.statusHide = "d-none";
                         Auth.statusError = "warning";
@@ -75,12 +75,12 @@ const Auth = {
                     Auth.setError(data.message);
                 }
 
-            }).catch(function (error) {
+            }).catch(function(error) {
 
                 Auth.login();
             });
-    },
-    isLogin: () => {
+    }
+    static isLogin() {
 
         if (window.localStorage.getItem('accessToken') !== undefined && window.localStorage.getItem('accessToken')) {
             return true;
@@ -88,7 +88,7 @@ const Auth = {
             return false
         }
 
-    },
+    }
 };
 
 

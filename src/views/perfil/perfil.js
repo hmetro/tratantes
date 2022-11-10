@@ -4,21 +4,24 @@ import PagePerfil from './page';
 import App from '../app';
 
 
-const MiPerfil = {
-    oninit: () => {
+class MiPerfil extends App {
+    constructor() {
+        super();
+    }
+    oninit() {
         if (!Auth.isLogin()) {
             return m.route.set('/auth');
         }
-    },
-    oncreate: () => {
-        document.title = "Mi Perfil | " + App.title;
-    },
-    view: () => {
+    }
+    oncreate() {
+        this._setTitle = "Mi Perfil";
+    }
+    view() {
         return [
             m(HeaderPage),
             m(PagePerfil),
         ];
-    },
+    }
 
 };
 

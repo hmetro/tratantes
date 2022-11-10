@@ -1,5 +1,5 @@
-const FooterPublic = {
-    view: () => {
+class FooterPublic {
+    view() {
         return [
 
             m("footer.m-pt-140", [
@@ -13,7 +13,7 @@ const FooterPublic = {
                                     )
                                 ),
                                 m("p",
-                                    "Metrcvirtual para Pacientes, conéctate con tu Hospital Metropolitano desde cualquier navegador y aprovecha al máximo todos nuestros servicios disponibles."
+                                    "MetrcVirtual para Pacientes, conéctate con tu Hospital Metropolitano desde cualquier navegador y aprovecha al máximo todos nuestros servicios disponibles."
                                 ),
 
                             ])
@@ -48,7 +48,7 @@ const FooterPublic = {
                 )
             ])
         ];
-    },
+    }
 
 };
 

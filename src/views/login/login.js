@@ -4,28 +4,31 @@ import FooterPublic from '../layout/footer-public';
 import FormLogin from './formlogin';
 import App from '../app';
 
-const Login = {
-    oninit: () => {
+class Login extends App {
+    constructor() {
+        super();
+    }
+    oninit() {
         if (Auth.isLogin()) {
             return m.route.set('/inicio');
         }
-    },
-    oncreate: () => {
-        document.title = "Entrar | " + App.title;
+    }
+    oncreate() {
+        this.mainLayout();
         submitLogin();
-        App.mainLayout();
-    },
-    view: () => {
+
+    }
+    view() {
         return [
             m(HeaderPublic),
             m(FormLogin),
             m(FooterPublic)
         ];
-    },
+    }
 };
 
 function submitLogin() {
-    document.onkeypress = function (e) {
+    document.onkeypress = function(e) {
         if (!e) e = window.event;
         var keyCode = e.keyCode || e.which;
         if (keyCode == "13") {
@@ -35,9 +38,6 @@ function submitLogin() {
         }
     };
 }
-
-
-
 
 
 export default Login;
