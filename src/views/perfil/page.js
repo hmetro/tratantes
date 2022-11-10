@@ -27,7 +27,7 @@ const PagePerfil = {
                     ]),
                     m("div.row",
                         m("div.col-md-12.text-center.m-mb-50",
-                            m("a.btn.bordered-blue.fadeInDown-slide.animated.medim-btn.btn-bordered.mt-0.text-medium.radius-pill.bg-transparent.text-active.text-uppercase.[href='#!/salir']",
+                            m("a.btn.bordered-blue.fadeInDown-slide.animated.medim-btn.btn-bordered.mt-0.text-medium.radius-pill.bg-transparent.text-active.text-uppercase.[href='/salir']",
                                 " Salir "
                             )
                         )

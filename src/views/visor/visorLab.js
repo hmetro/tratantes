@@ -361,7 +361,7 @@ class Laboratorio {
                                 m("h2.m-0.text-dark",
                                     "Ayuda"
                                 ),
-                                m("span.d-inline-block.text-active.mt-3.active", 'Soporte Metrovirtual: ¡Estamos aquí, para lo que necesites!.')
+                                m("span.d-inline-block.mt-3.active", 'Opciones disponibles.')
                             ])
                         )
                     ),
@@ -372,19 +372,19 @@ class Laboratorio {
                             m("div.row.m-mb-60.m-mt-10.", [
                                 m("div.col-12",
                                     m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
-                                        m("span.position-absolute.flaot-icon",
-                                            m("i.icofont-stethoscope-alt.text-active")
+                                        m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
+                                            m("i.icofont-page")
                                         ),
                                         m("h5.m-text-2.mb-3",
                                             m("p.designation", [
-                                                " ¿No encuentro mi resultado? ",
+                                                " ¿Mi resultado tiene inconsitencias? ",
                                             ]),
                                         ),
 
                                     ]),
                                     m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
-                                        m("span.position-absolute.flaot-icon",
-                                            m("i.icofont-stethoscope-alt.text-active")
+                                        m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
+                                            m("i.icofont-first-aid")
                                         ),
                                         m("h5.m-text-2.mb-3",
                                             m("p.designation.", [
@@ -394,12 +394,12 @@ class Laboratorio {
 
                                     ]),
                                     m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
-                                        m("span.position-absolute.flaot-icon",
-                                            m("i.icofont-stethoscope-alt.text-active")
+                                        m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
+                                            m("i.icofont-first-aid")
                                         ),
                                         m("h5.m-text-2.mb-3",
                                             m("p.designation", [
-                                                " Solicitar duplicado en físico (CD) (USB) a Domicilio. ",
+                                                " Necesito este resultado en físico (CD O USB). ",
                                             ]),
                                         ),
 
@@ -510,14 +510,14 @@ class MenuBoton {
                         ((!(window.matchMedia('(min-width: 1320px)').matches)) ? [
 
                             m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Compartir"),
+                                m("div.text-primary.mr-2", "Ayuda"),
                                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
                                         e.preventDefault();
                                         ButtonHelp.help = !ButtonHelp.help;
                                     },
                                 },
-                                    m("i.icofont-share", { "style": { "font-size": "x-large" } })
+                                    m("i.icofont-question", { "style": { "font-size": "x-large" } })
                                 )
                             ]),
                         ] : [
@@ -538,14 +538,14 @@ class MenuBoton {
                                 )
                             ]),
                             m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Compartir"),
+                                m("div.text-primary.mr-2", "Ayuda"),
                                 m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
                                         e.preventDefault();
                                         ButtonHelp.help = !ButtonHelp.help;
                                     },
                                 },
-                                    m("i.icofont-share", { "style": { "font-size": "x-large" } })
+                                    m("i.icofont-question", { "style": { "font-size": "x-large" } })
                                 )
                             ]),
 
