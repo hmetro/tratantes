@@ -10,6 +10,7 @@ import MiPerfil from '../views/perfil/perfil';
 import _404 from '../views/404'
 import ResultadosPacientePrivate from '../views/paciente/resultadosPrivate';
 import VisorLab from '../views/visor/visorLab';
+import VisorImg from '../views/visor/visorImg';
 
 
 
@@ -23,7 +24,8 @@ const Routes = {
     '/pacientes': Pacientes, // Pacientes
     '/resultados/paciente/:nhc': ResultadosPaciente, // Resultados de Paciente
     '/resultados': ResultadosPacientePrivate, // Resultados de Paciente
-    '/resultado/l/:id': VisorLab, // Resultado de Paciente
+    '/resultado/l/:id': VisorLab, // VisorLab
+    '/resultado/i/:id': VisorImg, // VisorImg
     '/mi-perfil': MiPerfil, // MiPerfil
     '/salir': Salir, // Salir
     "/:404...": _404
