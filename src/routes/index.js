@@ -11,6 +11,7 @@ import _404 from '../views/404'
 import ResultadosPacientePrivate from '../views/paciente/resultadosPrivate';
 import VisorLab from '../views/visor/visorLab';
 import VisorImg from '../views/visor/visorImg';
+import ViewerImg from '../views/visor/viewerImg';
 
 
 
@@ -26,6 +27,7 @@ const Routes = {
     '/resultados': ResultadosPacientePrivate, // Resultados de Paciente
     '/resultado/l/:id': VisorLab, // VisorLab
     '/resultado/i/:id': VisorImg, // VisorImg
+    '/viewer/:id': ViewerImg, // ViewerImg
     '/mi-perfil': MiPerfil, // MiPerfil
     '/salir': Salir, // Salir
     "/:404...": _404
