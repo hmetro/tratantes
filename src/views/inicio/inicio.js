@@ -17,7 +17,7 @@ class Inicio extends App {
         this._setTitle = "Inicio";
         this.view = this._p;
         let $this = this;
-        setTimeout(function () {
+        setTimeout(function() {
             $this.view = $this._p;
             m.redraw();
         }, 3000)

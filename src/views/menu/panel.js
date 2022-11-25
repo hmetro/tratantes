@@ -6,7 +6,7 @@ var _modulos_ = [
 
 class Modulos {
     view() {
-        return _modulos_.map(function (i) {
+        return _modulos_.map(function(i) {
 
             if (i.id == 1) {
                 return m("div.col-sm-12.col-md-12.col-lg-6",

@@ -7,7 +7,7 @@ class HeaderPrivate {
         this.mom = moment();
     }
 
-    set _setTime({ }) {
+    set _setTime({}) {
 
         this.watch = this.mom.format('LT');
 
@@ -45,7 +45,7 @@ class HeaderPrivate {
                     m("div.overlay.op-P9"),
                     m("div.container",
                         m("div.row",
-                            m("div.col-md-12",)
+                            m("div.col-md-12", )
                         )
                     )
                 ]),
