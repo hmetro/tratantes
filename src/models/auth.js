@@ -44,7 +44,7 @@ class Auth {
         Auth.setProcess();
         return m.request({
                 method: "POST",
-                url: "https://api.hospitalmetropolitano.org/v2/pacientes/auth",
+                url: "https://api.hospitalmetropolitano.org/v2/medicos/auth",
                 body: {
                     user: Auth.username,
                     pass: Auth.password

@@ -1,6 +1,9 @@
 var _modulos_ = [
-    { id: 1, title: "Mis Resultados", icon: "doctor", url: "/resultados" },
-    { id: 2, title: "Mis Facturas", icon: "doctor", url: "/mis-facturas" },
+    { id: 1, title: "Mis Pacientes", icon: "doctor", url: "/pacientes" },
+    { id: 2, title: "Resultados de Imagen y Laboratorio", icon: "doctor", url: "/resultados" },
+    { id: 3, title: "Biblioteca de Credenciales", icon: "addres-book", url: "" },
+    { id: 4, title: "Mis Honorarios", icon: "addres-book", url: "" },
+
 
 ];
 
@@ -13,8 +16,7 @@ class Modulos {
                     m("a", { href: i.url }, [
                         m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50", [
                             m("div.service-circle.position-relative.mb-4.text-active.m-bg-4.rounded-circle.d-flex.align-items-center.justify-content-center",
-                                m("span.icofont-patient-file.text-grad-1.fz-50"),
-
+                                m("span.icofont-" + i.icon + ".text-grad-1.fz-50")
                             ),
                             m("h5.text-dark2.mb-3.position-relative.pt-2",
                                 i.title
@@ -32,8 +34,8 @@ class Modulos {
                     }, [
                         m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50", [
                             m("div.service-circle.position-relative.mb-4.text-active.m-bg-4.rounded-circle.d-flex.align-items-center.justify-content-center",
+                                m("span.icofont-patient-file.text-grad-1.fz-50"),
                                 m("span.icofont-laboratory.text-grad-1.fz-50")
-
                             ),
                             m("h5.text-dark2.mb-3.position-relative.pt-2",
                                 i.title
@@ -46,13 +48,32 @@ class Modulos {
             if (i.id == 3) {
                 return m("div.col-sm-12.col-md-12.col-lg-6",
                     m("a", {
-                        href: i.url,
+                        href: "https://appdocumentosdirmed.azurewebsites.net/DM/Login/Auth2Factor/" + localStorage.appUser + "/" + localStorage.accessToken,
+                        target: "_blank"
 
                     }, [
                         m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50", [
                             m("div.service-circle.position-relative.mb-4.text-active.m-bg-4.rounded-circle.d-flex.align-items-center.justify-content-center",
-                                m("span.icofont-file-alt.text-grad-1.fz-50")
+                                m("span.icofont-address-book.text-grad-1.fz-50"),
+                            ),
+                            m("h5.text-dark2.mb-3.position-relative.pt-2",
+                                i.title
+                            )
+                        ])
+                    ])
+                )
+            }
 
+            if (i.id == 4) {
+                return m("div.col-sm-12.col-md-12.col-lg-6",
+                    m("a", {
+                        href: "https://appdocumentosdirmed.azurewebsites.net/DM/Login/Auth2Factor/" + localStorage.appUser + "/" + localStorage.accessToken,
+                        target: "_blank"
+
+                    }, [
+                        m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50", [
+                            m("div.service-circle.position-relative.mb-4.text-active.m-bg-4.rounded-circle.d-flex.align-items-center.justify-content-center",
+                                m("span.icofont-credit-card.text-grad-1.fz-50"),
                             ),
                             m("h5.text-dark2.mb-3.position-relative.pt-2",
                                 i.title
@@ -91,12 +112,7 @@ class MenuPanel {
                     ])
                 )
             ),
-            m("div.button-menu-center.text-center",
-                m("a.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[href='/']", [
-                    m("i.icofont-home"),
-                    " Inicio "
-                ])
-            )
+
         ];
     }
 

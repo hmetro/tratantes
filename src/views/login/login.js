@@ -16,7 +16,6 @@ class Login extends App {
     oncreate() {
         this.mainLayout();
         submitLogin();
-
     }
     view() {
         return [

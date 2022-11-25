@@ -7,7 +7,7 @@ class App {
     page;
 
     constructor() {
-        this.page = ' | MetroVirtual para Pacientes';
+        this.page = ' | MetroVirtual para Médicos';
     }
 
     get _getTitle() {

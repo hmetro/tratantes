@@ -1,38 +1,667 @@
 import Auth from '../../models/auth';
 import HeaderPrivate from '../layout/header-private';
-import PagePacientes from './page';
 import App from '../app';
 
 
+class DataProviderInter {
+    static data = [];
+    static filteredData = [];
+    static searchField = "";
+    static show = "";
+    static fetch() {
+        DataProviderInter.filterData();
+    }
+    static loadData() {
+        DataProviderInter.fetch();
+    }
+    static filterData() {
+        var to = Math.min(DataProviderInter.from + DataProviderInter.count, DataProviderInter.data.length + 1);
+        DataProviderInter.filteredData = [];
+        for (var i = DataProviderInter.from - 1; i < to - 1; i++) {
+            DataProviderInter.filteredData.push(DataProviderInter.data[i]);
+        }
+    }
+    static from = 1;
+    static count = 10;
+    static setFrom(from) {
+        DataProviderInter.from = parseInt(from);
+        DataProviderInter.filterData();
+    }
 
-const Pacientes = {
-    oninit: () => {
+    static setCount(count) {
+        DataProviderInter.count = parseInt(count);
+        DataProviderInter.filterData();
+    }
+    static nextPage() {
+        var from = DataProviderInter.from + DataProviderInter.count;
+        if (from > DataProviderInter.data.length)
+            return;
+        DataProviderInter.from = from;
+        DataProviderInter.filterData();
+    }
+    static lastPage() {
+        DataProviderInter.from = DataProviderInter.data.length - DataProviderInter.count + 1;
+        DataProviderInter.filterData();
+    }
+    static prevPage() {
+        DataProviderInter.from = Math.max(1, DataProviderInter.from - DataProviderInter.count);
+        DataProviderInter.filterData();
+    }
+    static firstPage() {
+        DataProviderInter.from = 1;
+        DataProviderInter.filterData();
+    }
+    static rowBack() {
+        DataProviderInter.from = Math.max(1, DataProviderInter.from - 1);
+        DataProviderInter.filterData();
+    }
+    static rowFwd() {
+        if (DataProviderInter.from + DataProviderInter.count - 1 >= DataProviderInter.data.length)
+            return;
+        DataProviderInter.from += 1;
+        DataProviderInter.filterData();
+    }
+};
+
+
+class DataProvider {
+    static data = [];
+    static filteredData = [];
+    static searchField = "";
+    static show = "";
+    static loader = true;
+    static fetch() {
+
+        DataProvider.loader = true;
+        m.request({
+                method: "GET",
+                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
+                headers: {
+                    "Authorization": localStorage.accessToken,
+                },
+            })
+            .then(function(result) {
+
+                DataProvider.loader = false;
+
+                if (result.status) {
+
+                    DataProvider.data = [];
+                    Pacientes.codMedico = result.codMedico;
+                    DataProvider.data = result.dataTra;
+                    DataProvider.filterData();
+
+                    DataProviderInter.data = [];
+                    DataProviderInter.data = result.dataInter;
+                    DataProviderInter.loadData();
+                } else {
+                    alert('No existe resultados para tu búsqueda.')
+                }
+
+
+
+
+            })
+            .catch(function(e) {
+                DataProvider.fetch();
+            })
+
+
+
+
+    }
+    static loadData() {
+        DataProvider.fetch();
+    }
+
+    static filterData() {
+        var to = Math.min(DataProvider.from + DataProvider.count, DataProvider.data.length + 1);
+        DataProvider.filteredData = [];
+        for (var i = DataProvider.from - 1; i < to - 1; i++) {
+            DataProvider.filteredData.push(DataProvider.data[i]);
+        }
+    }
+
+    static from = 1;
+    static count = 10;
+    static setFrom(from) {
+        DataProvider.from = parseInt(from);
+        DataProvider.filterData();
+    }
+    static setCount(count) {
+        DataProvider.count = parseInt(count);
+        DataProvider.filterData();
+    }
+    static nextPage() {
+        var from = DataProvider.from + DataProvider.count;
+        if (from > DataProvider.data.length)
+            return;
+        DataProvider.from = from;
+        DataProvider.filterData();
+    }
+    static lastPage() {
+        DataProvider.from = DataProvider.data.length - DataProvider.count + 1;
+        DataProvider.filterData();
+    }
+    static prevPage() {
+        DataProvider.from = Math.max(1, DataProvider.from - DataProvider.count);
+        DataProvider.filterData();
+    }
+    static firstPage() {
+        DataProvider.from = 1;
+        DataProvider.filterData();
+    }
+    static rowBack() {
+        DataProvider.from = Math.max(1, DataProvider.from - 1);
+        DataProvider.filterData();
+    }
+    static rowFwd() {
+        if (DataProvider.from + DataProvider.count - 1 >= DataProvider.data.length)
+            return;
+        DataProvider.from += 1;
+        DataProvider.filterData();
+    }
+};
+
+class dataView {
+    static show = "";
+    oninit = DataProvider.loadData;
+    oncreate() {
+        Pacientes.submitBusqueda();
+    }
+    view() {
+
+        if (!DataProvider.loader) {
+            return m('table.w-100.mt-5.' + dataView.show, [
+                m('tbody', DataProvider.filteredData.map(function(d) {
+                    return [
+                        m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
+                            "style": { "border-color": "#0aa1eb" }
+                        }, [
+                            m("h4.mb-0", [
+                                    m("i.icofont-ui-user"),
+                                    " " + d['NOMBRE_PACIENTE'] + ' ' + d['NOMBRE_PACIENTE']
+                                ]
+
+                            ),
+                            m("div.media.",
+                                m("div.media-body", [
+                                    m("p.designation.text-uppercase", [
+                                        d['EDAD'],
+                                        " Año(s)",
+                                        " Especialidad: ",
+                                        d['ESPECIALIDAD'],
+                                        " Médico: ",
+                                        d['NOMBRE_MEDICO'],
+                                    ]),
+
+                                    m("h6",
+                                        (d['DG_PRINCIPAL'] !== null) ? "Dg: " + d['DG_PRINCIPAL'] : "Dg: NO DISPONIBLE",
+                                        (" Fecha Admisión: " + d['FECHA_ADMISION']),
+                                        (d['NRO_HABITACION'] !== null) ? " Ubicación: " + d['NRO_HABITACION'] : " Ubicación: NO DISPONIBLE",
+                                        ((Pacientes.codMedico == '0') ? [
+                                            m('br'),
+                                            (d['DISCRIMINANTE'] == 'EMA') ? " En Emergencia " : " En Hospitalización "
+
+                                        ] : [
+                                            m('br'),
+                                            (d['CLASIFICACION_MEDICO'] === 'TRA') ? " MED: TRATANTE" : " MED: INTERCONSULTA ",
+
+                                        ])
+                                    ),
+
+                                    m("div.text-right", [
+                                        m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
+                                                href: "#!/paciente/" + d['HC']
+                                            },
+                                            " Ver Paciente "
+                                        )
+                                    ])
+
+                                ])
+                            )
+                        ]),
+
+                    ]
+                }))
+            ]);
+        } else {
+            return m("div.preloader-inner",
+                m("div.loader-content",
+                    m("span.icon-section-wave.d-inline-block.text-active.mt-3.", ),
+                )
+            )
+
+        }
+    }
+}
+
+class dataViewInter {
+    static show = "d-none";
+    oninit = DataProviderInter.loadData;
+    view() {
+        return m('table.w-100.mt-5.' + dataViewInter.show, [
+            m('tbody', DataProviderInter.filteredData.map(function(d) {
+                return [
+                    m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
+                        "style": { "border-color": "#0aa1eb" }
+                    }, [
+                        m("h4.mb-0", [
+                                m("i.icofont-ui-user"),
+                                " " + d['NOMBRE_PACIENTE'] + " " + d['NOMBRE_PACIENTE']
+                            ]
+
+                        ),
+                        m("div.media.",
+                            m("div.media-body", [
+                                m("p.designation.text-uppercase", [
+                                    d['EDAD'],
+                                    " Año(s)",
+                                    " Especialidad: ",
+                                    d['ESPECIALIDAD'],
+                                    " Médico: ",
+                                    d['NOMBRE_MEDICO'],
+                                ]),
+
+                                m("h6",
+                                    (d['DG_PRINCIPAL'] !== null) ? "Dg: " + d['DG_PRINCIPAL'] : "Dg: NO DISPONIBLE",
+                                    (" Fecha Admisión: " + d['FECHA_ADMISION']),
+                                    (d['NRO_HABITACION'] !== null) ? " Ubicación: " + d['NRO_HABITACION'] : " Ubicación: NO DISPONIBLE",
+                                    ((Pacientes.codMedico == "0") ? [
+                                        m('br'),
+                                        (d['DISCRIMINANTE'] == 'EMA') ? " En Emergencia " : " En Hospitalización "
+
+                                    ] : [
+                                        m('br'),
+                                        (d['CLASIFICACION_MEDICO'] === 'TRA') ? " MED: TRATANTE" : " MED: INTERCONSULTA ",
+
+                                    ])
+                                ),
+
+                                m("div.text-right", [
+                                    m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
+                                            href: "/paciente/" + d['HC']
+                                        },
+                                        " Ver Paciente "
+                                    )
+                                ])
+
+                            ])
+                        )
+                    ]),
+
+                ]
+            }))
+        ]);
+    }
+};
+
+
+class pageTool {
+    view() {
+        if (DataProvider.data.length !== 0 && dataView.show == "" && DataProvider.filteredData.length !== 0) {
+            if (DataProvider.data.length === 0) {
+
+                return [
+                    m("div.text-center.w-100.mt-5", [
+                        m('span', '(0) Resultado(s)'),
+                    ]),
+                ]
+
+            } else if (DataProvider.data.length > 10) {
+
+                return [
+                    m("div.text-center.w-100.mt-5", [
+                        m('span', '(' + DataProvider.data.length + ') Resultado(s) '),
+                    ]),
+                    m('div.d-flex.w-100.text-center.mt-5', [
+                        m("div.w-50.w-20", [
+
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProvider.rowBack(); }
+                                },
+                                " << Anterior "
+                            ),
+                        ]),
+
+                        m("div.w-50.w-20", [
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProvider.rowFwd(); }
+                                },
+                                " Siguiente >>"
+                            ),
+
+
+
+                        ])
+                    ]),
+                    m('div.d-flex.w-100.text-center.mt-5', [
+                        m("div.w-50.w-20", [
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProvider.firstPage(); }
+                                },
+                                " | Inicio "
+                            ),
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProvider.prevPage(); }
+                                },
+                                " < Pág. Ant. "
+                            ),
+
+                        ]),
+
+                        m("div.w-50.w-20", [
+
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProvider.nextPage(); }
+                                },
+                                " Pág. Sig. > "
+                            ),
+
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProvider.lastPage(); }
+                                },
+                                " Fin | "
+                            ),
+
+                        ])
+                    ])
+
+                ]
+
+            } else {
+                return [
+                    m("div.text-center.w-100.mt-5", [
+                        m('span', '(' + DataProvider.data.length + ') Resultado(s) '),
+                    ]),
+                ]
+
+
+            }
+        }
+    }
+};
+
+
+class pageToolInter {
+    view() {
+
+        if (DataProviderInter.data.length !== 0 && dataViewInter.show == "" && DataProviderInter.filteredData.length !== 0) {
+            if (DataProviderInter.data.length === 0) {
+
+                return [
+                    m("div.text-center.w-100.mt-5", [
+                        m('span', '(0) Resultado(s)'),
+                    ]),
+                ]
+
+            } else if (DataProviderInter.data.length > 10) {
+
+                return [
+                    m("div.text-center.w-100.mt-5", [
+                        m('span', '(' + DataProviderInter.data.length + ') Resultado(s) '),
+                    ]),
+                    m('div.d-flex.w-100.text-center.mt-5', [
+                        m("div.w-50.w-20", [
+
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProviderInter.rowBack(); }
+                                },
+                                " << Anterior "
+                            ),
+                        ]),
+
+                        m("div.w-50.w-20", [
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProviderInter.rowFwd(); }
+                                },
+                                " Siguiente >>"
+                            ),
+
+
+
+                        ])
+                    ]),
+                    m('div.d-flex.w-100.text-center.mt-5', [
+                        m("div.w-50.w-20", [
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProviderInter.firstPage(); }
+                                },
+                                " | Inicio "
+                            ),
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProviderInter.prevPage(); }
+                                },
+                                " < Pág. Ant. "
+                            ),
+
+                        ]),
+
+                        m("div.w-50.w-20", [
+
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProviderInter.nextPage(); }
+                                },
+                                " Pág. Sig. > "
+                            ),
+
+
+                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
+                                    type: "button",
+                                    "style": { "cursor": "pointer" },
+
+                                    onclick: function() { DataProviderInter.lastPage(); }
+                                },
+                                " Fin | "
+                            ),
+
+                        ])
+                    ])
+
+                ]
+
+            } else {
+                return [
+                    m("div.text-center.w-100.mt-5", [
+                        m('span', '(' + DataProviderInter.data.length + ') Resultado(s) '),
+                    ]),
+                ]
+
+
+            }
+        }
+
+    }
+};
+
+
+
+class Pacientes extends App {
+    static codMedico = "";
+    constructor() {
+        super();
+    }
+
+    oninit() {
+
         if (!Auth.isLogin()) {
             return m.route.set('/auth');
         }
-    },
-    oncreate: () => {
-        document.title = "Mis Pacientes | " + App.title;
-        submitBusqueda();
-        _Main();
-    },
-    view: () => {
+        this._setTitle = "Mis Pacientes";
+    }
+    static submitBusqueda() {
+        document.onkeypress = function(e) {
+            if (!e) e = window.event;
+            var keyCode = e.keyCode || e.which;
+            if (keyCode == "13") {
+                document.getElementById('actBuscar').click();
+            }
+        };
+    }
+
+    oncreate() {
+        this.mainLayout();
+    }
+    view() {
         return [
             m(HeaderPrivate),
-            m(PagePacientes),
+            m("section.m-bg-1",
+                m("div.container",
+                    m("div.row",
+                        m("div.col-md-6.offset-md-3",
+                            m("div.text-center.m-mt-70", [
+                                m("h2.m-0.text-dark",
+                                    "Mis Pacientes "
+                                ),
+                                m("span.icon-section-wave.d-inline-block.text-active.section-wave.mt-3.active")
+                            ])
+                        )
+                    ),
+                    m("div.row.m-mt-30.m-mb-20",
+
+                        (DataProvider.filteredData.length !== 0 ? [m("div.col-md-12", [
+                            m("div.d-flex.align-items-left.position-relative.justify-content-left", [
+                                m("div.custom-control.custom-radio.m-mb-20.mr-2.fz-20", {
+                                    "style": {
+                                        "font-size": "large"
+                                    }
+                                }, [
+                                    m("input.custom-control-input[type='radio'][id='tratante'][name='typeShow'][value='tratante']", {
+                                        oncreate: (e) => {
+                                            e.dom.checked = true;
+                                        },
+                                        onclick: (e) => {
+                                            if (e.target.checked) {
+                                                dataView.show = "";
+                                                dataViewInter.show = "d-none";
+                                            }
+                                        }
+
+                                    }),
+                                    m("label.custom-control-label[for='tratante']",
+                                        ((Pacientes.codMedico == "0") ? "Emergencia" : "Soy Tratante")
+                                    )
+                                ]),
+                                m("div.custom-control.custom-radio.m-mb-20.ml-2.mr-2", {
+                                    "style": {
+                                        "font-size": "large"
+                                    }
+                                }, [
+                                    m("input.custom-control-input[type='radio'][id='inter'][name='typeShow'][value='inter']", {
+                                        onclick: (e) => {
+                                            if (e.target.checked) {
+                                                dataView.show = "d-none";
+                                                dataViewInter.show = "";
+                                            }
+                                        }
+                                    }),
+                                    m("label.custom-control-label[for='inter']",
+                                        ((Pacientes.codMedico == "0") ? "Hospitalización" : "Interconsulta")
+                                    )
+                                ]),
+
+
+                            ]),
+                            m("div.input-group.banenr-seach.bg-white.m-mt-30.mb-0", [
+                                m("input.form-control[type='text'][placeholder='Buscar por Apellidos y Nombres']", {
+                                    oninput: function(e) {
+                                        e.target.value = e.target.value.toUpperCase();
+                                        DataProvider.searchField = e.target.value;
+                                    },
+                                    value: DataProvider.searchField,
+                                }),
+                                m("div.input-group-append",
+                                    m("i.icofont-close.p-2.mt-1", {
+
+                                        style: { "color": "rgba(108, 117, 125, 0.4) !important", "font-size": "xx-large" },
+                                        class: (DataProvider.searchField.length !== 0) ? "" : "d-none",
+                                        onclick: () => {
+                                            DataProvider.searchField = "";
+                                            DataProvider.fetch();
+                                        },
+                                    }),
+                                    m("button.btn[type='button'][id='actBuscar']", {
+                                            onclick: () => {
+                                                DataProvider.fetch();
+                                            },
+                                        },
+                                        "Buscar"
+                                    ),
+
+                                )
+                            ]),
+                        ])] : [])
+
+
+                    ),
+                    m("div.row.m-pt-20.m-pb-60.m-mt-20", [
+                        m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
+                            m(dataView),
+                            m(pageTool),
+                        ),
+                        m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
+                            m(dataViewInter),
+                            m(pageToolInter),
+                        ),
+
+                    ])
+                )
+            ),
             m("footer", [
 
                 m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
                     m("div.container",
                         m("div.row",
                             m("div.col-md-12", [
-                                m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
-                                m("p.mb-1.mt-1", [
-                                    m.trust("&copy;"),
-                                    new Date().getFullYear() + ". Todos los derechos reservados."
-                                ])
+                                    m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                    m("p.mb-1.mt-1", [
+                                        m.trust("&copy;"),
+                                        new Date().getFullYear() + ". Todos los derechos reservados."
+                                    ])
 
-                            ]
+                                ]
 
                             )
                         )
@@ -45,544 +674,9 @@ const Pacientes = {
                 )
             ])
         ];
-    },
-
+    }
 };
 
-function _Main() {
-
-    //Global Variables
-    var windowHeight = $(window).height();
-    var windowWidth = $(window).width();
-
-    //Document Ready
-    //Counter up
-    $('.counter').counterUp({
-        delay: 10,
-        time: 1000
-    });
-
-    $('.section-wave').each(function () {
-
-        var self = $(this);
-
-        $(this).waypoint({
-            offset: '85%',
-            handler: function () {
-                self.addClass('active')
-            }
-        });
-    })
-
-    //Dynamic sticky Menu
-
-    var sitckyHeader = $('.navbar-sticky');
-    if (sitckyHeader.length > 0) {
-        var navOffset = $('.navbar-sticky').offset().top;
-        $(window).on('scroll', function () {
-            var $cloneNav = $('.navbar-sticky').clone(true);
-            $cloneNav.addClass('sticky-active');
-            if ($(this).scrollTop() > navOffset) {
-                if ($(document).find('.sticky-active').length < 1) {
-                    $('.navbar-sticky').not('.sticky-active').css({
-                        visibility: 'hidden',
-                        opacity: 0
-                    });
-                    $('header').append($cloneNav);
-                    $cloneNav.show('slow');
-                } else {
-
-                }
-            } else {
-                $('.navbar-sticky').not('.sticky-active').css({
-                    visibility: 'visible',
-                    opacity: 1
-                });
-                $('.sticky-active').remove();
-            }
-        });
-    }
-
-
-    //Anime js
-    $('.ml12').each(function () {
-        $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
-    });
-
-    anime.timeline({
-        loop: false
-    })
-        .add({
-            targets: '.ml12 .letter',
-            translateX: [40, 0],
-            translateZ: 0,
-            opacity: [0, 1],
-            easing: "easeOutExpo",
-            duration: 1200,
-            delay: function (el, i) {
-                return 500 + 30 * i;
-            },
-            complete: function () {
-                anime({
-                    targets: '.ml12 .letter',
-                    opacity: 1,
-                    duration: 1000,
-                });
-            }
-        });
-
-
-    anime.timeline({ loop: false })
-        .add({
-            targets: '.ml15 .word',
-            scale: [2, 1],
-            opacity: [0, 1],
-            easing: "easeOutCirc",
-            duration: 800,
-            delay: function (el, i) {
-                return 800 * i;
-            },
-            complete: function () {
-                anime({
-                    targets: '.ml15 .word',
-                    opacity: 1,
-                    duration: 1000,
-                });
-            }
-        });
-
-
-    /* ----------------------------------
-    ----------------------------------*/
-    $('.doctors-slider').slick({
-        slidesToScroll: 1,
-        slidesToShow: 3,
-        dots: true,
-        infinite: true,
-        centerMode: true,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        centerPadding: '0px',
-        arrows: false,
-        responsive: [{
-            breakpoint: 992,
-            settings: {
-                centerMode: false,
-                slidesToShow: 2
-            }
-        },
-        {
-            breakpoint: 768,
-            settings: {
-                centerMode: false,
-                slidesToShow: 2
-
-            }
-        },
-        {
-            breakpoint: 577,
-            settings: {
-                autoplay: true,
-                centerMode: false,
-                slidesToShow: 1
-            }
-        },
-        {
-            breakpoint: 300,
-            settings: {
-                autoplay: false,
-                centerMode: false,
-                slidesToShow: 1
-            }
-        }
-        ]
-
-    });
-    //Testimonial slider
-    $('.testimonial-slider2').slick({
-        slidesToScroll: 1,
-        slidesToShow: 1,
-        dots: true,
-        infinite: true,
-        arrows: false
-
-    });
-    //Partner Slider
-    $('.partner-slider').slick({
-        slidesToScroll: 1,
-        slidesToShow: 5,
-        dots: false,
-        infinite: true,
-        autoplay: true,
-        autoplaySpeed: 2000,
-        arrows: false,
-        responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 4
-            }
-        },
-        {
-            breakpoint: 768,
-            settings: {
-                slidesToShow: 2
-            }
-        },
-        {
-            breakpoint: 300,
-            settings: {
-                slidesToShow: 1
-            }
-        }
-        ]
-
-    });
-    //
-    $('.testimonial-slider').slick({
-        slidesToScroll: 1,
-        slidesToShow: 2,
-        dots: true,
-        infinite: true,
-        arrows: false,
-        responsive: [{
-            breakpoint: 992,
-            settings: {
-                slidesToShow: 2
-            }
-        },
-        {
-            breakpoint: 768,
-            settings: {
-                slidesToShow: 1
-            }
-        },
-        {
-            breakpoint: 300,
-            settings: {
-                slidesToShow: 1
-            }
-        }
-        ]
-
-    });
-
-    // Department Carousel
-
-
-    //Set background image for WordPress
-    $(".set-bg").each(function () {
-        var thesrc = $(this).attr('data-bg');
-        $(this).css("background-image", "url(" + thesrc + ")");
-        $(this).css("background-position", "center");
-        $(this).css("background-size", "cover");
-        $(this).css("background-repeat", "no-repeat");
-        $(this).removeAttr('data-bg');
-    });
-    //Date Picker
-    $(".datepicker").datepicker({
-        dateFormat: 'yy-mm-dd',
-    });
-    //Select-2
-    $('.js-example-basic-single').select2();
-
-    // Convert All Image to SVG
-    $('img.svg').each(function () {
-        var $img = $(this),
-            imgID = $img.attr('id'),
-            imgClass = $img.attr('class'),
-            imgURL = $img.attr('src');
-
-        $.get(imgURL, function (data) {
-            var $svg = $(data).find('svg');
-            if (typeof imgID !== 'undefined') {
-                $svg = $svg.attr('id', imgID);
-            }
-            if (typeof imgClass !== 'undefined') {
-                $svg = $svg.attr('class', imgClass);
-            }
-            $svg = $svg.removeAttr('xmlns:a');
-            $img.replaceWith($svg);
-        }, 'xml');
-
-    });
-
-    //Burget Menu
-    $('.burger_menu').on('click', function (e) {
-        e.preventDefault();
-        if (isMobile) {
-            moileMenu()
-        } else {
-
-        }
-        $(this).toggleClass('is-open');
-        $('.bcbd_collpase_nav').toggleClass('show_clmenu');
-        $('.bcbd_navbar').toggleClass('activeMobileMenu');
-        $('.bcbd_nav').find('.opendp').removeClass('opendp');
-        $('.bcbd_nav').children('.hs_dropdown').find('.mega-menu').slideUp();
-        $('.bcbd_nav').children('.hs_dropdown').find('.bcbd_dropdown').slideUp();
-        $('body').toggleClass("mobileMenuOpen");
-        if ($('body').hasClass("mobileMenuOpen")) {
-            $('body').css('overflowY', 'hidden');
-
-        } else {
-            $('body').css({
-                overflow: 'visible',
-                height: '100%'
-            });
-        }
-    });
-
-    //For drop down navigation
-    $('.hs_dropdown > a').on('click', function (e) {
-        var hash = this.hash;
-        if ($(this).attr('href') != '' || hash) {
-            e.preventDefault();
-            e.stopPropagation();
-        } else {
-
-        }
-
-    });
-
-    var wWidth = $(window).width();
-    var isMobile = wWidth < 992;
-    $(window).on('resize', function () {
-        wWidth = $(window).width();
-        isMobile = wWidth < 992;
-        if (wWidth >= 992) {
-            $('.mega-menu').show();
-            $('.bcbd_dropdown').show();
-        }
-    });
-
-    function moileMenu() {
-        $('.hs_dropdown').on('click', function (ev) {
-            //ev.preventDefault();
-            ev = window.event || ev;
-            ev.stopPropagation();
-            if ($(this).parents('.bcbd_collpase_nav').hasClass('show_clmenu')) {
-                $(this).children('ul').stop().slideToggle();
-                $(this).siblings('.hs_dropdown').children('ul').stop().slideUp();
-                $(this).siblings('.hs_dropdown').children('.mega-menu ').stop().slideUp();
-                $(this).toggleClass('opendp');
-                $(this).siblings('.hs_dropdown').children('.mega-menu').find('.opendp').children('.bcbd_dropdown').stop().slideUp();
-                $(this).siblings('.hs_dropdown').children('.mega-menu').find('.opendp ').removeClass('opendp')
-                $(this).siblings('.hs_dropdown').removeClass('opendp');
-
-                if ($(this).children('.mega-menu ')) {
-                    $(this).children('.mega-menu ').stop().slideToggle();
-
-                }
-            }
-
-        });
-    }
-
-
-    //ripple Effect
-    $(".banenr").on('click', function (e) {
-
-        // Remove any old one
-        $(".ripple").remove();
-
-        // Setup
-        var posX = $(this).offset().left,
-            posY = $(this).offset().top,
-            buttonWidth = $(this).width(),
-            buttonHeight = $(this).height();
-
-        // Add the element
-        $(this).prepend("<span class='ripple'></span>");
-
-
-        // Make it round!
-        if (buttonWidth >= buttonHeight) {
-            buttonHeight = buttonWidth;
-        } else {
-            buttonWidth = buttonHeight;
-        }
-
-        var x = e.pageX - posX - buttonWidth / 2;
-        var y = e.pageY - posY - buttonHeight / 2;
-
-        $(".ripple").css({
-            width: buttonWidth,
-            height: buttonHeight,
-            top: y + 'px',
-            left: x + 'px'
-        }).addClass("rippleEffect");
-    })
-
-    //scroll top
-    var documentHeight = $(document).height();
-    var scrollableHeight = documentHeight / 1.70;
-    $('.scroll-top').hide();
-    $(window).on('scroll', function () {
-        if ($(this).scrollTop() > scrollableHeight) {
-            $('.scroll-top').show();
-        } else {
-            $('.scroll-top').hide();
-        }
-    });
-    $('.scroll-top').on('click', function () {
-        $("html, body").animate({ scrollTop: 0 }, "slow");
-    });
-
-    //Venobox
-    $('.venobox').venobox();
-    //Check Content block children
-    $('.content-block').each(function (index, el) {
-        if ($(this).children().length > 0) {
-            $(this).addClass('has-content')
-        }
-    });
-
-
-    /* ----------------------------------
-    ----------------------------------*/
-    $(document).on('mouseup', function (e) {
-        var container = $(".nav_outer,.burger_menu");
-        if (!container.is(e.target) && container.has(e.target).length === 0) {
-            $('.burger_menu').removeClass('is-open');
-            $('.bcbd_navbar').removeClass('activeMobileMenu');
-            $('body').removeClass('mobileMenuOpen');
-            $('.bcbd_collpase_nav').removeClass('show_clmenu');
-        }
-    });
-
-
-    // Makin Wp Frindly Parallax image
-
-    $('.parallax-window').each(function () {
-        var image = $(this).attr('data-bg');
-        $(this).parallax({
-            imageSrc: image
-        });
-    });
-
-
-    //Mouse Move
-    $(window).on('load', function () {
-        var wrapper = document.querySelector('.banenr.type-2');
-        if ($('.banenr.type-2').length > 0) {
-            var layerOne = document.querySelector('.inner-image');
-            wrapper.addEventListener('mousemove', function (e) {
-                var pageX = e.clientX,
-                    pageY = e.clientY;
-                layerOne.style.webkitTransform = 'translateX(' + pageX / 250 + '%) translateY(' + pageY / 250 + '%)';
-                layerOne.style.transform = 'translateX(' + pageX / 250 + '%) translateY(' + pageY / 250 + '%)';
-
-            });
-        }
-    });
-
-    //Windows Load
-    $(window).on('load', function () {
-        var wrapper = document.querySelector('.banenr.type-4');
-        if ($('.banenr.type-4').length > 0) {
-            var layerOne = document.querySelector('.logo-box');
-            var layerTwo = document.querySelector('.banenr.type-4 h5');
-            var layerThree = document.querySelector('.banenr.type-4  .btn');
-            var layerFour = document.querySelector('.banenr.type-4  h1');
-            var layerFive = document.querySelector('.banenr.type-4  .no-border');
-            wrapper.addEventListener('mousemove', function (e) {
-                var pageX = e.clientX,
-                    pageY = e.clientY;
-                layerOne.style.webkitTransform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-                layerOne.style.transform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-
-                layerTwo.style.webkitTransform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-                layerTwo.style.transform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-
-                layerThree.style.webkitTransform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-                layerThree.style.transform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-
-                layerFour.style.webkitTransform = 'translateX(' + pageX / 200 + '%) translateY(' + pageY / 40 + '%)';
-                layerFour.style.transform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-
-                layerFive.style.webkitTransform = 'translateX(' + pageX / 200 + '%) translateY(' + pageY / 40 + '%)';
-                layerFive.style.transform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
-
-                wrapper.style = 'background-position:' + pageX / 100 + 'px' + ' ' + pageY / 40 + 'px';
-
-            });
-        }
-    });
-    //Check height for Banner
-
-
-
-    $(window).on('load', function () {
-        if (windowHeight <= 800) {
-            $('.banenr.type-4 .banner-inner').each(function (index, el) {
-                $(this).addClass('full-height');
-            });
-            $('.reversed-margin.appoint-area').each(function (index, el) {
-                $(this).addClass('low-banner-height');
-            });
-        } else {
-            $('.reversed-margin.appoint-area').removeClass('low-banner-height');
-        }
-        // isotop initialize
-        $('.pricing-grid').isotope({
-            itemSelector: '.grid-item',
-            filter: '.monthly'
-
-        });
-
-        $('.pricing-filter li').on('click', function () {
-            $(this).addClass('active').siblings().removeClass('active');
-            var filterValue = $(this).attr('data-filter');
-            $('.grid').isotope({
-                filter: filterValue
-            });
-        });
-
-
-        var grid = $('.grid');
-        if (grid.length > 0) {
-            grid.each(function (index, el) {
-                $('.grid').isotope({
-                    itemSelector: '.grid-item'
-
-                });
-
-                $('.filter li').on('click', function () {
-                    $(this).addClass('active').siblings().removeClass('active');
-                    var filterValue = $(this).attr('data-filter');
-                    $('.grid').isotope({
-                        filter: filterValue
-                    });
-                });
-
-            });
-        }
-    })
-
-
-    // Content schedule
-    $(window).on("load resize scroll", function (e) {
-        $('.content-block').each(function () {
-            if ($(this).children('div').length > 0) {
-
-            } else {
-                $(this).addClass('no-schedule')
-            }
-        });
-    });
-
-
-}
-
-function submitBusqueda() {
-    document.onkeypress = function (e) {
-        if (!e) e = window.event;
-        var keyCode = e.keyCode || e.which;
-        if (keyCode == "13") {
-            console.log('OK');
-        }
-    };
-}
 
 
 export default Pacientes;

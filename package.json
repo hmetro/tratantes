@@ -1,7 +1,7 @@
 {
-    "name": "Pacientes.Metrovirtual.v3",
+    "name": "Medicos.Tratantes.Metrovirtual.v3",
     "version": "0.1.0",
-    "description": "Webapp para Médicos del Hospital Metropolitano UIO EC",
+    "description": "Webapp para Médicos del Hospital Metropolitano EC",
     "main": "index.js",
     "scripts": {
         "build": "webpack --config webpack.pro.js --progress",
@@ -9,7 +9,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/hmetro/pacientes.git"
+        "url": "git+https://github.com/hmetro/tratantes.git"
     },
     "keywords": [
         "mithril",
@@ -19,9 +19,9 @@
     "author": "chaos",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/hmetro/pacientes.git/issues"
+        "url": "https://github.com/hmetro/tratantes.git/issues"
     },
-    "homepage": "https://github.com/hmetro/pacientes.git#readme",
+    "homepage": "https://github.com/hmetro/tratantes.git#readme",
     "dependencies": {
         "mithril": "^2.2.2",
         "print-js": "^1.6.0"

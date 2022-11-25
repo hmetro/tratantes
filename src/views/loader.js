@@ -7,11 +7,11 @@ const ButtonReload = {
 
             m("div.button-menu-right-reload." + Loader.buttonShow, { "style": { "display": "flex" } },
                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                    onclick: (e) => {
-                        e.preventDefault();
-                        window.location.reload();
+                        onclick: (e) => {
+                            e.preventDefault();
+                            window.location.reload();
+                        },
                     },
-                },
                     m("i.icofont-refresh", { "style": { "font-size": "x-large" } })
                 )
             )
@@ -54,7 +54,7 @@ class Loader {
             m("div.preloader",
                 m("div.preloader-inner",
                     m("div.loader-content",
-                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.",),
+                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.", ),
                     )
                 ),
 
@@ -70,7 +70,7 @@ class Loader {
             m("div.preloader",
                 m("div.preloader-inner",
                     m("div.loader-content",
-                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.",),
+                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.", ),
                     )
                 ),
 
