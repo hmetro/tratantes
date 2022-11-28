@@ -2,7 +2,6 @@ var _modulos_ = [
     { id: 1, title: "Mis Pacientes", icon: "doctor", url: "/pacientes" },
     { id: 2, title: "Resultados de Imagen y Laboratorio", icon: "doctor", url: "/resultados" },
     { id: 3, title: "Biblioteca de Credenciales", icon: "addres-book", url: "" },
-    { id: 4, title: "Mis Honorarios", icon: "addres-book", url: "" },
 
 
 ];
