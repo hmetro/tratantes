@@ -1,6 +1,7 @@
 import Auth from '../../models/auth';
 import HeaderPrivate from '../layout/header-private';
 import App from '../app';
+import Loader from '../loader';
 
 
 class DataProviderInter {
@@ -22,7 +23,7 @@ class DataProviderInter {
         }
     }
     static from = 1;
-    static count = 10;
+    static count = 1000;
     static setFrom(from) {
         DataProviderInter.from = parseInt(from);
         DataProviderInter.filterData();
@@ -74,26 +75,25 @@ class DataProvider {
 
         DataProvider.loader = true;
         m.request({
-                method: "GET",
-                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
 
                 DataProvider.loader = false;
 
                 if (result.status) {
 
-                    DataProvider.data = [];
                     Pacientes.codMedico = result.codMedico;
                     DataProvider.data = result.dataTra;
                     DataProvider.filterData();
 
-                    DataProviderInter.data = [];
                     DataProviderInter.data = result.dataInter;
                     DataProviderInter.loadData();
+
                 } else {
                     alert('No existe resultados para tu búsqueda.')
                 }
@@ -102,7 +102,7 @@ class DataProvider {
 
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 DataProvider.fetch();
             })
 
@@ -123,7 +123,7 @@ class DataProvider {
     }
 
     static from = 1;
-    static count = 10;
+    static count = 1000;
     static setFrom(from) {
         DataProvider.from = parseInt(from);
         DataProvider.filterData();
@@ -173,15 +173,15 @@ class dataView {
 
         if (!DataProvider.loader) {
             return m('table.w-100.mt-5.' + dataView.show, [
-                m('tbody', DataProvider.filteredData.map(function(d) {
+                m('tbody', DataProvider.filteredData.map(function (d) {
                     return [
                         m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
                             "style": { "border-color": "#0aa1eb" }
                         }, [
                             m("h4.mb-0", [
-                                    m("i.icofont-ui-user"),
-                                    " " + d['NOMBRE_PACIENTE'] + ' ' + d['NOMBRE_PACIENTE']
-                                ]
+                                m("i.icofont-ui-user"),
+                                " " + d['NOMBRE_PACIENTE'] + ' ' + d['NOMBRE_PACIENTE']
+                            ]
 
                             ),
                             m("div.media.",
@@ -197,7 +197,9 @@ class dataView {
 
                                     m("h6",
                                         (d['DG_PRINCIPAL'] !== null) ? "Dg: " + d['DG_PRINCIPAL'] : "Dg: NO DISPONIBLE",
+                                        m('br'),
                                         (" Fecha Admisión: " + d['FECHA_ADMISION']),
+                                        m('br'),
                                         (d['NRO_HABITACION'] !== null) ? " Ubicación: " + d['NRO_HABITACION'] : " Ubicación: NO DISPONIBLE",
                                         ((Pacientes.codMedico == '0') ? [
                                             m('br'),
@@ -212,8 +214,8 @@ class dataView {
 
                                     m("div.text-right", [
                                         m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
-                                                href: "#!/paciente/" + d['HC']
-                                            },
+                                            href: "/paciente/" + d['HC']
+                                        },
                                             " Ver Paciente "
                                         )
                                     ])
@@ -226,80 +228,83 @@ class dataView {
                 }))
             ]);
         } else {
-            return m("div.preloader-inner",
-                m("div.loader-content",
-                    m("span.icon-section-wave.d-inline-block.text-active.mt-3.", ),
-                )
-            )
+            return m(Loader, { loaderMisPtes: true })
 
         }
     }
 }
 
 class dataViewInter {
-    static show = "d-none";
+    static show = "";
     oninit = DataProviderInter.loadData;
     view() {
-        return m('table.w-100.mt-5.' + dataViewInter.show, [
-            m('tbody', DataProviderInter.filteredData.map(function(d) {
-                return [
-                    m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
-                        "style": { "border-color": "#0aa1eb" }
-                    }, [
-                        m("h4.mb-0", [
+        if (!DataProvider.loader) {
+            return m('table.w-100.mt-5.' + dataViewInter.show, [
+                m('tbody', DataProviderInter.filteredData.map(function (d) {
+                    return [
+                        m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
+                            "style": { "border-color": "#0aa1eb" }
+                        }, [
+                            m("h4.mb-0", [
                                 m("i.icofont-ui-user"),
                                 " " + d['NOMBRE_PACIENTE'] + " " + d['NOMBRE_PACIENTE']
                             ]
 
-                        ),
-                        m("div.media.",
-                            m("div.media-body", [
-                                m("p.designation.text-uppercase", [
-                                    d['EDAD'],
-                                    " Año(s)",
-                                    " Especialidad: ",
-                                    d['ESPECIALIDAD'],
-                                    " Médico: ",
-                                    d['NOMBRE_MEDICO'],
-                                ]),
+                            ),
+                            m("div.media.",
+                                m("div.media-body", [
+                                    m("p.designation.text-uppercase", [
+                                        d['EDAD'],
+                                        " Año(s)",
+                                        " Especialidad: ",
+                                        d['ESPECIALIDAD'],
+                                        " Médico: ",
+                                        d['NOMBRE_MEDICO'],
+                                    ]),
 
-                                m("h6",
-                                    (d['DG_PRINCIPAL'] !== null) ? "Dg: " + d['DG_PRINCIPAL'] : "Dg: NO DISPONIBLE",
-                                    (" Fecha Admisión: " + d['FECHA_ADMISION']),
-                                    (d['NRO_HABITACION'] !== null) ? " Ubicación: " + d['NRO_HABITACION'] : " Ubicación: NO DISPONIBLE",
-                                    ((Pacientes.codMedico == "0") ? [
+                                    m("h6",
+                                        (d['DG_PRINCIPAL'] !== null) ? "Dg: " + d['DG_PRINCIPAL'] : "Dg: NO DISPONIBLE",
                                         m('br'),
-                                        (d['DISCRIMINANTE'] == 'EMA') ? " En Emergencia " : " En Hospitalización "
-
-                                    ] : [
+                                        (" Fecha Admisión: " + d['FECHA_ADMISION']),
                                         m('br'),
-                                        (d['CLASIFICACION_MEDICO'] === 'TRA') ? " MED: TRATANTE" : " MED: INTERCONSULTA ",
+                                        (d['NRO_HABITACION'] !== null) ? " Ubicación: " + d['NRO_HABITACION'] : " Ubicación: NO DISPONIBLE",
+                                        ((Pacientes.codMedico == "0") ? [
+                                            m('br'),
+                                            (d['DISCRIMINANTE'] == 'EMA') ? " En Emergencia " : " En Hospitalización "
 
-                                    ])
-                                ),
+                                        ] : [
+                                            m('br'),
+                                            (d['CLASIFICACION_MEDICO'] === 'TRA') ? " MED: TRATANTE" : " MED: INTERCONSULTA ",
 
-                                m("div.text-right", [
-                                    m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
+                                        ])
+                                    ),
+
+                                    m("div.text-right", [
+                                        m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
                                             href: "/paciente/" + d['HC']
                                         },
-                                        " Ver Paciente "
-                                    )
+                                            " Ver Paciente "
+                                        )
+                                    ])
+
                                 ])
+                            )
+                        ]),
 
-                            ])
-                        )
-                    ]),
+                    ]
+                }))
+            ]);
+        } else {
+            return;
+        }
 
-                ]
-            }))
-        ]);
     }
 };
 
 
 class pageTool {
     view() {
-        if (DataProvider.data.length !== 0 && dataView.show == "" && DataProvider.filteredData.length !== 0) {
+        if (DataProvider.loader == false && DataProvider.data.length !== 0 && dataView.show == "" && DataProvider.filteredData.length !== 0) {
             if (DataProvider.data.length === 0) {
 
                 return [
@@ -314,81 +319,6 @@ class pageTool {
                     m("div.text-center.w-100.mt-5", [
                         m('span', '(' + DataProvider.data.length + ') Resultado(s) '),
                     ]),
-                    m('div.d-flex.w-100.text-center.mt-5', [
-                        m("div.w-50.w-20", [
-
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProvider.rowBack(); }
-                                },
-                                " << Anterior "
-                            ),
-                        ]),
-
-                        m("div.w-50.w-20", [
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProvider.rowFwd(); }
-                                },
-                                " Siguiente >>"
-                            ),
-
-
-
-                        ])
-                    ]),
-                    m('div.d-flex.w-100.text-center.mt-5', [
-                        m("div.w-50.w-20", [
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProvider.firstPage(); }
-                                },
-                                " | Inicio "
-                            ),
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProvider.prevPage(); }
-                                },
-                                " < Pág. Ant. "
-                            ),
-
-                        ]),
-
-                        m("div.w-50.w-20", [
-
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProvider.nextPage(); }
-                                },
-                                " Pág. Sig. > "
-                            ),
-
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProvider.lastPage(); }
-                                },
-                                " Fin | "
-                            ),
-
-                        ])
-                    ])
 
                 ]
 
@@ -409,7 +339,7 @@ class pageTool {
 class pageToolInter {
     view() {
 
-        if (DataProviderInter.data.length !== 0 && dataViewInter.show == "" && DataProviderInter.filteredData.length !== 0) {
+        if (DataProvider.loader == false && DataProviderInter.data.length !== 0 && dataViewInter.show == "" && DataProviderInter.filteredData.length !== 0) {
             if (DataProviderInter.data.length === 0) {
 
                 return [
@@ -424,81 +354,7 @@ class pageToolInter {
                     m("div.text-center.w-100.mt-5", [
                         m('span', '(' + DataProviderInter.data.length + ') Resultado(s) '),
                     ]),
-                    m('div.d-flex.w-100.text-center.mt-5', [
-                        m("div.w-50.w-20", [
 
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProviderInter.rowBack(); }
-                                },
-                                " << Anterior "
-                            ),
-                        ]),
-
-                        m("div.w-50.w-20", [
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProviderInter.rowFwd(); }
-                                },
-                                " Siguiente >>"
-                            ),
-
-
-
-                        ])
-                    ]),
-                    m('div.d-flex.w-100.text-center.mt-5', [
-                        m("div.w-50.w-20", [
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProviderInter.firstPage(); }
-                                },
-                                " | Inicio "
-                            ),
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProviderInter.prevPage(); }
-                                },
-                                " < Pág. Ant. "
-                            ),
-
-                        ]),
-
-                        m("div.w-50.w-20", [
-
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProviderInter.nextPage(); }
-                                },
-                                " Pág. Sig. > "
-                            ),
-
-
-                            m("btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2.mr-2", {
-                                    type: "button",
-                                    "style": { "cursor": "pointer" },
-
-                                    onclick: function() { DataProviderInter.lastPage(); }
-                                },
-                                " Fin | "
-                            ),
-
-                        ])
-                    ])
 
                 ]
 
@@ -532,7 +388,7 @@ class Pacientes extends App {
         this._setTitle = "Mis Pacientes";
     }
     static submitBusqueda() {
-        document.onkeypress = function(e) {
+        document.onkeypress = function (e) {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
             if (keyCode == "13") {
@@ -555,13 +411,13 @@ class Pacientes extends App {
                                 m("h2.m-0.text-dark",
                                     "Mis Pacientes "
                                 ),
-                                m("span.icon-section-wave.d-inline-block.text-active.section-wave.mt-3.active")
+                                (!DataProvider.loader ? m("span.icon-section-wave.d-inline-block.text-active.section-wave.mt-3.active") : "")
                             ])
                         )
                     ),
                     m("div.row.m-mt-30.m-mb-20",
 
-                        (DataProvider.filteredData.length !== 0 ? [m("div.col-md-12", [
+                        (DataProvider.filteredData.length !== 0 || DataProviderInter.filteredData.length !== 0 ? [m("div.col-md-12", [
                             m("div.d-flex.align-items-left.position-relative.justify-content-left", [
                                 m("div.custom-control.custom-radio.m-mb-20.mr-2.fz-20", {
                                     "style": {
@@ -606,7 +462,7 @@ class Pacientes extends App {
                             ]),
                             m("div.input-group.banenr-seach.bg-white.m-mt-30.mb-0", [
                                 m("input.form-control[type='text'][placeholder='Buscar por Apellidos y Nombres']", {
-                                    oninput: function(e) {
+                                    oninput: function (e) {
                                         e.target.value = e.target.value.toUpperCase();
                                         DataProvider.searchField = e.target.value;
                                     },
@@ -623,10 +479,11 @@ class Pacientes extends App {
                                         },
                                     }),
                                     m("button.btn[type='button'][id='actBuscar']", {
-                                            onclick: () => {
-                                                DataProvider.fetch();
-                                            },
+                                        onclick: () => {
+
+                                            DataProvider.fetch();
                                         },
+                                    },
                                         "Buscar"
                                     ),
 
@@ -638,12 +495,14 @@ class Pacientes extends App {
                     ),
                     m("div.row.m-pt-20.m-pb-60.m-mt-20", [
                         m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
-                            m(dataView),
                             m(pageTool),
+                            m(dataView),
+
                         ),
                         m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
-                            m(dataViewInter),
                             m(pageToolInter),
+                            m(dataViewInter),
+
                         ),
 
                     ])
@@ -655,13 +514,13 @@ class Pacientes extends App {
                     m("div.container",
                         m("div.row",
                             m("div.col-md-12", [
-                                    m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
-                                    m("p.mb-1.mt-1", [
-                                        m.trust("&copy;"),
-                                        new Date().getFullYear() + ". Todos los derechos reservados."
-                                    ])
+                                m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                m("p.mb-1.mt-1", [
+                                    m.trust("&copy;"),
+                                    new Date().getFullYear() + ". Todos los derechos reservados."
+                                ])
 
-                                ]
+                            ]
 
                             )
                         )
@@ -672,7 +531,13 @@ class Pacientes extends App {
 
                     )
                 )
-            ])
+            ]),
+            m("div.button-menu-center.text-center",
+                m("a.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[href='/']", [
+                    m("i.icofont-home"),
+                    " Inicio "
+                ])
+            )
         ];
     }
 };

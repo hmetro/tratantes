@@ -4,6 +4,7 @@ import Salir from '../views/salir'
 import Login from '../views/login/login'
 import Inicio from '../views/inicio/inicio'
 import Pacientes from '../views/pacientes/pacientes';
+import Paciente from '../views/paciente/paciente';
 import ResultadosPaciente from '../views/paciente/resultados';
 import MiPerfil from '../views/perfil/perfil';
 import _404 from '../views/404'
@@ -19,6 +20,7 @@ const Routes = {
     '/inicio': Inicio, //Inicio
     '/auth': Login, // Login
     '/pacientes': Pacientes, // Pacientes
+    '/paciente/:nhc': Paciente, // Paciente
     '/resultados/paciente/:nhc': ResultadosPaciente, // Resultados de Paciente
     '/resultados': ResultadosPacientePrivate, // Resultados de Paciente
     '/resultado/l/:id': VisorLab, // VisorLab
