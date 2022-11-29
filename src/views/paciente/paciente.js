@@ -796,6 +796,10 @@ class Laboratorio {
                                                             m("span.d-block",
                                                                 " Fecha y Hora: " + _v.FECHA
                                                             ),
+                                                            (_v.examenes.length !== 0 ? [m("span.d-block",
+                                                                "Exámenes: " + _v.examenes.toString()
+                                                            )] : [])
+
                                                         ]),
 
                                                     ])

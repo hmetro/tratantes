@@ -16,12 +16,14 @@ class DataProvider {
         DataProvider.loader = true;
 
         if (DataProvider.tipoBusqueda == 'pte' && DataProvider.searchField.length !== 0) {
+
             let _l = countWords(DataProvider.searchField);
+
             if (_l >= 2) {
 
                 m.request({
                         method: "POST",
-                        url: "https://api.hospitalmetropolitano.org/t/v1/buscar-paciente",
+                        url: "https://api.hospitalmetropolitano.org/v2/medicos/buscar-paciente",
                         body: {
                             tipoBusqueda: DataProvider.tipoBusqueda,
                             pte: DataProvider.searchField
@@ -43,6 +45,7 @@ class DataProvider {
                 DataProvider.loader = false;
                 alert('¡Escriba 2 Apellidos o Nombres para continuar.!')
             }
+
         } else {
 
             m.request({
@@ -62,7 +65,10 @@ class DataProvider {
                     DataProvider.data = result.data;
                     DataProvider.filterData();
                 })
-                .catch(function(e) {})
+                .catch(function(e) {
+
+                })
+
         }
 
     }
