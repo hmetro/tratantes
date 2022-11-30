@@ -54,7 +54,7 @@ class Auth {
 
                 if (data.status) {
                     window.localStorage.accessToken = data.jwt;
-
+                    window.localStorage.appUser = data.data.user.user;
                     Auth.setSuccess('Bienvenido');
                     setTimeout(function() {
                         Auth.imputDisabled = false;
