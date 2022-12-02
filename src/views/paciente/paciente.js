@@ -1950,7 +1950,7 @@ class MenuBoton {
 
             if (verDocPDF.numPage == 0) {
                 return [
-                    m("div.button-menu-right-plus", { "style": { "display": "flex" } },
+                    m("div.button-menu-right-p1", { "style": { "display": "flex" } },
                         m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                 onclick: (e) => {
                                     e.preventDefault();
@@ -1969,7 +1969,7 @@ class MenuBoton {
                 ]
             } else if (verDocPDF.numPage == 1) {
                 return [
-                    m("div.button-menu-right-plus", { "style": { "display": "flex" } },
+                    m("div.button-menu-right-p1", { "style": { "display": "flex" } },
                         m("div.text-primary.mr-2", "Descargar"),
                         m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                 onclick: (e) => {
@@ -2066,7 +2066,7 @@ class MenuBoton {
                 ]
             } else if (verDocPDF.numPage > 1) {
                 return [
-                    m("div.button-menu-right-plus", { "style": { "display": "flex" } },
+                    m("div.button-menu-right-p1", { "style": { "display": "flex" } },
                         m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                 onclick: (e) => {
                                     verDocPDF.onNextPage();
@@ -2088,7 +2088,7 @@ class MenuBoton {
 
                         )
                     ),
-                    m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
+                    m("div.button-menu-right-p2", { "style": { "display": "flex" } }, [
                         m("div.text-primary.mr-2", "Descargar"),
                         m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                 onclick: (e) => {
@@ -2104,7 +2104,7 @@ class MenuBoton {
                     ]),
                     ((!(window.matchMedia('(min-width: 1320px)').matches)) ? [
 
-                        m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
+                        m("div.button-menu-right-p3", { "style": { "display": "flex" } }, [
                                 m("div.text-primary.mr-2", "Cerrar"),
                                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                         onclick: (e) => {
@@ -2132,7 +2132,7 @@ class MenuBoton {
 
                         )
                     ] : [
-                        m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
+                        m("div.button-menu-right-p3", { "style": { "display": "flex" } }, [
                             m("div.text-primary.mr-2", "Imprimir"),
                             m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
@@ -2148,7 +2148,7 @@ class MenuBoton {
                                 m("i.icofont-print", { "style": { "font-size": "x-large" } })
                             )
                         ]),
-                        m("div.button-menu-right-zoomout", { "style": { "display": "flex" } }, [
+                        m("div.button-menu-right-p4", { "style": { "display": "flex" } }, [
                                 m("div.text-primary.mr-2", "Cerrar"),
                                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                         onclick: (e) => {
@@ -2184,7 +2184,7 @@ class MenuBoton {
                 ]
             } else {
                 return [
-                    m("div.button-menu-right-close", { "style": { "display": "flex" } }, [
+                    m("div.button-menu-right-p3", { "style": { "display": "flex" } }, [
                             m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
                                         e.preventDefault();
@@ -2201,7 +2201,7 @@ class MenuBoton {
                         ]
 
                     ),
-                    m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
+                    m("div.button-menu-right-p2", { "style": { "display": "flex" } }, [
                             m("div.text-primary.mr-2", "Actualizar"),
                             m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
