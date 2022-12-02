@@ -24,7 +24,7 @@ class VisorRis {
                         m("div.overlay.op-P9"),
                         m("div.container",
                             m("div.row",
-                                m("div.col-md-12", )
+                                m("div.col-md-12",)
                             )
                         )
                     ]),
@@ -41,14 +41,14 @@ class VisorRis {
                         ),
                         m("div.col-6.text-right.mt-3",
                             m("a", {
-                                    style: { "cursor": "pointer" },
-                                    onclick: (e) => {
-                                        e.preventDefault();
+                                style: { "cursor": "pointer" },
+                                onclick: (e) => {
+                                    e.preventDefault();
 
-                                        VisorRis.show = "";
+                                    VisorRis.show = "";
 
-                                    },
                                 },
+                            },
                                 m("div.d-inline.text-primary.mr-2", "Cerrar"),
 
                                 m("div.features-circle.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle", { "style": { "height": "50px", "width": "50px" } },
@@ -85,13 +85,13 @@ class Imagen {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         m.request({
-                method: "GET",
-                url: url,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: url,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Imagen.loader = false;
                 if (result.status !== undefined && result.status) {
                     verDocPDF.tabImagen = "active show";
@@ -100,11 +100,11 @@ class Imagen {
                     verDocPDF.loadDocument(result.url);
                 } else {
                     Imagen.error = "Resultado no disponible. Ingrese a 'Ver Exámenes' para más información.";
-                    setTimeout(function() { Imagen.error = ""; }, 5000);
+                    setTimeout(function () { Imagen.error = ""; }, 5000);
                 }
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 alert("Resultado no disponible.");
                 Imagen.loader = false;
                 Imagen.error = "";
@@ -113,13 +113,13 @@ class Imagen {
     }
     static imprimirResultado(url) {
         m.request({
-                method: "GET",
-                url: url,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: url,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Imagen.loader = false;
 
                 if (result.status !== undefined && result.status) {
@@ -130,11 +130,11 @@ class Imagen {
                     })
                 } else {
                     Imagen.error = "Resultado no disponible.";
-                    setTimeout(function() { Imagen.error = ""; }, 5000);
+                    setTimeout(function () { Imagen.error = ""; }, 5000);
                 }
 
 
-            }).catch(function(e) {
+            }).catch(function (e) {
                 alert("Resultado no disponible.");
                 Imagen.loader = false;
                 Imagen.error = "";
@@ -149,13 +149,13 @@ class Imagen {
         Imagen.error = "";
         Imagen.loader = true;
         m.request({
-                method: "GET",
-                url: "https://api.hospitalmetropolitano.org/v2/pacientes/resultados-img/" + ResultadoPaciente.nhc,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: "https://api.hospitalmetropolitano.org/v2/pacientes/resultados-img/" + ResultadoPaciente.nhc,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Imagen.loader = false;
 
                 if (result.status && result.data.length !== 0) {
@@ -164,7 +164,7 @@ class Imagen {
                     Imagen.error = result.message;
                 }
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 Imagen.loader = false;
                 Imagen.fetch();
             })
@@ -192,7 +192,7 @@ class Imagen {
             m(".tab-pane.fade." + verDocPDF.tabImagen + "[id='v-pills-imagen'][role='tabpanel']", {
                 class: (verDocPDF.show.length == 0) ? "mt-5" : "mt-0",
             }, [
-                [(verDocPDF.show.length == 0 && verDocPDF.tabImagen.length !== 0) ? [] : [
+                [(verDocPDF.show.length == 0) ? [] : [
                     m("img.p-1.mb-2[src='assets/logo.metrovirtual.png'][alt='Metrovirtual'][width='200rem']")
                 ]],
                 m("h4.m-text-2.",
@@ -212,13 +212,13 @@ class Imagen {
                 m("div." + Imagen.showButtons + ".row.p-1",
                     m("div.col-md-12",
                         m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50.", {
-                                onclick: () => {
-                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                            onclick: () => {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
 
-                                    VisorRis.show = "d-none";
-                                },
-                                "style": { "cursor": "pointer" }
+                                VisorRis.show = "d-none";
                             },
+                            "style": { "cursor": "pointer" }
+                        },
                             m("h4.text-dark2.mb-3.position-relative.pt-2", [
                                 "Ver Exámenes (Zero FootPrint GE) ",
                             ])
@@ -226,13 +226,13 @@ class Imagen {
                     ),
                     m("div.col-md-12",
                         m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50.", {
-                                onclick: () => {
-                                    Imagen.showResultados = "";
-                                    Imagen.showButtons = "d-none";
-                                    MenuBoton.update = "RX";
-                                },
-                                "style": { "cursor": "pointer" }
+                            onclick: () => {
+                                Imagen.showResultados = "";
+                                Imagen.showButtons = "d-none";
+                                MenuBoton.update = "RX";
                             },
+                            "style": { "cursor": "pointer" }
+                        },
                             m("h4.text-dark2.mb-3.position-relative.pt-2",
                                 "Ver Informes"
                             )
@@ -262,7 +262,7 @@ class Imagen {
                         ]),
                         m("table.table.table-sm.mt-2[width='100%']", { "style": { "width": "100%", "border-color": "transparent", "margin-bottom": "50px" } }, [
                             m("tbody", [
-                                Imagen.data.map(function(_v, _i, _contentData) {
+                                Imagen.data.map(function (_v, _i, _contentData) {
 
                                     var _fechaHoy = moment(new Date()).format("DD-MM-YYYY");
 
@@ -313,13 +313,13 @@ class Imagen {
                                                     ]),
                                                     m("div.col-lg-6.p-2", [
                                                         m("div", {
-                                                                "style": {
-                                                                    "display": ((_fechaHoy == _v.FECHA) ? "block" : "none")
-                                                                }
-                                                            },
+                                                            "style": {
+                                                                "display": ((_fechaHoy == _v.FECHA) ? "block" : "none")
+                                                            }
+                                                        },
                                                             m("span", {
-                                                                    "style": { "color": "red" }
-                                                                },
+                                                                "style": { "color": "red" }
+                                                            },
                                                                 " Nuevo Resultado "
                                                             )
                                                         ),
@@ -357,7 +357,7 @@ class Imagen {
                 ),
                 m("div.text-center", [
                     m("div.loader-content",
-                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.", )
+                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.",)
                     )
                 ])
             ]),
@@ -385,7 +385,7 @@ class verDocPDF {
 
         verDocPDF.pageRendering = true;
         // Using promise to fetch the page
-        verDocPDF.pdfDoc.getPage(num).then(function(page) {
+        verDocPDF.pdfDoc.getPage(num).then(function (page) {
             var viewport = page.getViewport({
                 scale: verDocPDF.scale,
             });
@@ -398,7 +398,7 @@ class verDocPDF {
             };
             var renderTask = page.render(renderContext);
             // Wait for rendering to finish
-            renderTask.promise.then(function() {
+            renderTask.promise.then(function () {
                 verDocPDF.pageRendering = false;
                 if (verDocPDF.pageNumPending !== null) {
 
@@ -408,7 +408,7 @@ class verDocPDF {
 
                 } else {
 
-                    $('.preloader').fadeOut('slow', function() {
+                    $('.preloader').fadeOut('slow', function () {
                         $(this).hide();
                     });
 
@@ -458,7 +458,7 @@ class verDocPDF {
         verDocPDF.url = _url;
         verDocPDF.show = "d-none";
 
-        setTimeout(function() {
+        setTimeout(function () {
 
             $(".doc-loader").show();
             $(".doc-content").hide();
@@ -477,12 +477,12 @@ class verDocPDF {
                 .getDocument({
                     url: verDocPDF.url,
                 })
-                .promise.then(function(pdfDoc_) {
+                .promise.then(function (pdfDoc_) {
                     verDocPDF.pdfDoc = pdfDoc_;
                     $(".page_count").text(verDocPDF.pdfDoc.numPages);
 
                     // Initial/first page rendering
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $(".doc-loader").hide();
                         $(".doc-content").show();
                         $(".doc-control").show();
@@ -512,9 +512,9 @@ class verDocPDF {
 
                         m("div.row.col-12.d-block.text-light-dark", { style: { "font-size": "20px" } }, [
                             " Página: ",
-                            m("span.page_num", ),
+                            m("span.page_num",),
                             " / ",
-                            m("span.page_count", )
+                            m("span.page_count",)
                         ]),
 
                     ]),
@@ -522,7 +522,7 @@ class verDocPDF {
                         m("div..col-12.pd-5",
                             m("div.preloader-inner",
                                 m("div.loader-content",
-                                    m("span.icon-section-wave.d-inline-block.text-active.mt-3.", ),
+                                    m("span.icon-section-wave.d-inline-block.text-active.mt-3.",),
                                 )
                             ),
                         )
@@ -556,13 +556,13 @@ class Laboratorio {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         Laboratorio.loader = true;
         m.request({
-                method: "GET",
-                url: url,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: url,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Laboratorio.loader = false;
                 if (result.status !== undefined && result.status) {
                     verDocPDF.tab = "active show";
@@ -573,11 +573,11 @@ class Laboratorio {
 
                 } else {
                     Laboratorio.error = "Resultado no disponible.";
-                    setTimeout(function() { Laboratorio.error = ""; }, 5000);
+                    setTimeout(function () { Laboratorio.error = ""; }, 5000);
                 }
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 alert("Resultado no disponible.");
                 Laboratorio.loader = false;
                 verDocPDF.show = "";
@@ -588,22 +588,22 @@ class Laboratorio {
     static fetchResultado(url) {
         Laboratorio.loader = false;
         m.request({
-                method: "GET",
-                url: url,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: url,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Laboratorio.loader = false;
                 if (result.status !== undefined && result.status) {
                     window.open(result.url);
                 } else {
                     Laboratorio.error = "Resultado no disponible.";
-                    setTimeout(function() { Laboratorio.error = ""; }, 5000);
+                    setTimeout(function () { Laboratorio.error = ""; }, 5000);
                 }
 
-            }).catch(function(e) {
+            }).catch(function (e) {
                 alert("Resultado no disponible.");
                 Laboratorio.loader = false;
                 verDocPDF.show = "";
@@ -615,22 +615,22 @@ class Laboratorio {
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         m.request({
-                method: "GET",
-                url: url,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: url,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Laboratorio.loader = false;
                 if (result.status !== undefined && result.status) {
                     printJS(result.url)
                 } else {
                     Laboratorio.error = "Resultado no disponible.";
-                    setTimeout(function() { Laboratorio.error = ""; }, 5000);
+                    setTimeout(function () { Laboratorio.error = ""; }, 5000);
                 }
 
-            }).catch(function(e) {
+            }).catch(function (e) {
                 alert("Resultado no disponible.");
                 Laboratorio.loader = false;
                 verDocPDF.show = "";
@@ -645,13 +645,13 @@ class Laboratorio {
         Laboratorio.loader = true;
 
         m.request({
-                method: "GET",
-                url: "https://api.hospitalmetropolitano.org/v2/pacientes/resultados-laboratorio/" + ResultadoPaciente.nhc,
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "GET",
+            url: "https://api.hospitalmetropolitano.org/v2/pacientes/resultados-laboratorio/" + ResultadoPaciente.nhc,
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 Laboratorio.loader = false;
 
                 if (result.status && result.data.length !== 0) {
@@ -661,7 +661,7 @@ class Laboratorio {
                 }
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 Laboratorio.fetch();
             })
     }
@@ -681,7 +681,7 @@ class Laboratorio {
                 ),
                 m("div.text-center", [
                     m("div.loader-content",
-                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.", )
+                        m("span.icon-section-wave.d-inline-block.text-active.mt-3.",)
                     )
                 ])
             ]);
@@ -703,7 +703,7 @@ class Laboratorio {
                 m(".tab-pane.fade." + verDocPDF.tab + "[id='v-pills-lab'][role = 'tabpanel']", {
                     class: (verDocPDF.show.length == 0) ? "mt-0" : "mt-5",
                 }, [
-                    [(verDocPDF.show.length == 0 && verDocPDF.tab.length !== 0) ? [] : [
+                    [(verDocPDF.show.length == 0) ? [] : [
                         m("img.p-1.mb-2[src='assets/logo.metrovirtual.png'][alt='Metrovirtual'][width='200rem']")
                     ]],
                     m("h4.m-text-2",
@@ -725,7 +725,7 @@ class Laboratorio {
                         m("div.table-content.col-12.pd-r-0.pd-l-0.pd-b-20.w-100." + verDocPDF.show,
                             m("table.table.table-sm", { "style": { "width": "100%", "border-color": "transparent", "margin-bottom": "50px" } }, [
                                 m("tbody", [
-                                    Laboratorio.data.map(function(_v, _i, _contentData) {
+                                    Laboratorio.data.map(function (_v, _i, _contentData) {
 
 
                                         var _fechaHoy = moment(new Date()).format("DD-MM-YYYY");
@@ -779,13 +779,13 @@ class Laboratorio {
                                                         ]),
                                                         m("div.col-12.p-2", [
                                                             m("div", {
-                                                                    "style": {
-                                                                        "display": ((_fechaHoy == _v.FECHA_REGISTRADO) ? "block" : "none")
-                                                                    }
-                                                                },
+                                                                "style": {
+                                                                    "display": ((_fechaHoy == _v.FECHA_REGISTRADO) ? "block" : "none")
+                                                                }
+                                                            },
                                                                 m("span", {
-                                                                        "style": { "color": "red" }
-                                                                    },
+                                                                    "style": { "color": "red" }
+                                                                },
                                                                     " Nuevo Resultado "
                                                                 )
                                                             ),
@@ -829,17 +829,17 @@ class DetalleResultadoPaciente {
         DetalleResultadoPaciente.data = [];
         DetalleResultadoPaciente.error = "";
         m.request({
-                method: "POST",
-                url: "https://api.hospitalmetropolitano.org/t/v1/buscar-paciente",
-                body: {
-                    tipoBusqueda: "nhc",
-                    pte: ResultadoPaciente.nhc
-                },
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "POST",
+            url: "https://api.hospitalmetropolitano.org/t/v1/buscar-paciente",
+            body: {
+                tipoBusqueda: "nhc",
+                pte: ResultadoPaciente.nhc
+            },
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
                 if (result.status) {
                     DetalleResultadoPaciente.data = result.data[0];
                     DetalleResultadoPaciente.data.HC = DetalleResultadoPaciente.data.PK_NHCL;
@@ -848,8 +848,8 @@ class DetalleResultadoPaciente {
                     DetalleResultadoPaciente.error = "No existe información disponible. Comuníquese con el Administrador del Sistema.";
                 }
             })
-            .catch(function(e) {
-                setTimeout(function() { DetalleResultadoPaciente.fetch(); }, 5000);
+            .catch(function (e) {
+                setTimeout(function () { DetalleResultadoPaciente.fetch(); }, 5000);
             })
     }
     view() {
@@ -951,16 +951,16 @@ class MenuBoton {
                 return [
                     m("div.button-menu-right-plus", { "style": { "display": "flex" } },
                         m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
-                                    MenuBoton.show = "d-none";
-                                    MenuBoton.close = "";
-                                    MenuBoton.zoomin = "";
-                                    MenuBoton.zoomout = "";
-                                    MenuBoton.reload = "";
+                            onclick: (e) => {
+                                e.preventDefault();
+                                MenuBoton.show = "d-none";
+                                MenuBoton.close = "";
+                                MenuBoton.zoomin = "";
+                                MenuBoton.zoomout = "";
+                                MenuBoton.reload = "";
 
-                                },
                             },
+                        },
                             m("i.icofont-plus", { "style": { "font-size": "x-large" } })
                         )
                     ),
@@ -971,14 +971,14 @@ class MenuBoton {
                     m("div.button-menu-right-plus", { "style": { "display": "flex" } },
                         m("div.text-primary.mr-2", "Descargar"),
                         m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
+                            onclick: (e) => {
+                                e.preventDefault();
 
-                                    window.open(verDocPDF.url)
+                                window.open(verDocPDF.url)
 
 
-                                },
                             },
+                        },
                             m("i.icofont-download", { "style": { "font-size": "x-large" } })
                         )
                     ),
@@ -986,75 +986,75 @@ class MenuBoton {
                     ((!(window.matchMedia('(min-width: 1320px)').matches)) ? [
 
                         m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Cerrar"),
-                                m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                        onclick: (e) => {
-                                            e.preventDefault();
-                                            verDocPDF.show = "";
-                                            verDocPDF.url = "";
-                                            verDocPDF.numPage = 0;
-                                            verDocPDF.pageNum = 1;
-                                            if (verDocPDF.typeDoc == 'LAB') {
-                                                verDocPDF.tab = "active show";
-                                                verDocPDF.tabImagen = "";
-                                            } else {
-                                                verDocPDF.tabImagen = "active show";
-                                                verDocPDF.tab = "";
-                                            }
-                                            DetalleClinico.inZoom = "";
+                            m("div.text-primary.mr-2", "Cerrar"),
+                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                                onclick: (e) => {
+                                    e.preventDefault();
+                                    verDocPDF.show = "";
+                                    verDocPDF.url = "";
+                                    verDocPDF.numPage = 0;
+                                    verDocPDF.pageNum = 1;
+                                    if (verDocPDF.typeDoc == 'LAB') {
+                                        verDocPDF.tab = "active show";
+                                        verDocPDF.tabImagen = "";
+                                    } else {
+                                        verDocPDF.tabImagen = "active show";
+                                        verDocPDF.tab = "";
+                                    }
+                                    DetalleClinico.inZoom = "";
 
-                                        },
-                                    },
-                                    m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
+                                },
+                            },
+                                m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
 
-                                )
+                            )
 
-                            ]
+                        ]
 
                         )
                     ] : [
                         m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
                             m("div.text-primary.mr-2", "Imprimir"),
                             m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                    onclick: (e) => {
-                                        e.preventDefault();
-                                        printJS({
-                                            printable: verDocPDF.url,
-                                            type: 'pdf',
+                                onclick: (e) => {
+                                    e.preventDefault();
+                                    printJS({
+                                        printable: verDocPDF.url,
+                                        type: 'pdf',
 
-                                        })
+                                    })
 
-                                    },
                                 },
+                            },
                                 m("i.icofont-print", { "style": { "font-size": "x-large" } })
                             )
                         ]),
                         m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Cerrar"),
-                                m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                        onclick: (e) => {
-                                            e.preventDefault();
-                                            verDocPDF.show = "";
-                                            verDocPDF.url = "";
-                                            verDocPDF.numPage = 0;
-                                            verDocPDF.pageNum = 1;
-                                            if (verDocPDF.typeDoc == 'LAB') {
-                                                verDocPDF.tab = "active show";
-                                                verDocPDF.tabImagen = "";
-                                            } else {
-                                                verDocPDF.tabImagen = "active show";
-                                                verDocPDF.tab = "";
-                                            }
-                                            DetalleClinico.inZoom = "";
+                            m("div.text-primary.mr-2", "Cerrar"),
+                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                                onclick: (e) => {
+                                    e.preventDefault();
+                                    verDocPDF.show = "";
+                                    verDocPDF.url = "";
+                                    verDocPDF.numPage = 0;
+                                    verDocPDF.pageNum = 1;
+                                    if (verDocPDF.typeDoc == 'LAB') {
+                                        verDocPDF.tab = "active show";
+                                        verDocPDF.tabImagen = "";
+                                    } else {
+                                        verDocPDF.tabImagen = "active show";
+                                        verDocPDF.tab = "";
+                                    }
+                                    DetalleClinico.inZoom = "";
 
 
-                                        },
-                                    },
-                                    m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
+                                },
+                            },
+                                m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
 
-                                )
+                            )
 
-                            ]
+                        ]
 
                         )
                     ]),
@@ -1067,10 +1067,10 @@ class MenuBoton {
                 return [
                     m("div.button-menu-right-plus", { "style": { "display": "flex" } },
                         m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    verDocPDF.onNextPage();
-                                },
+                            onclick: (e) => {
+                                verDocPDF.onNextPage();
                             },
+                        },
                             m("i.fas.fa-chevron-circle-right"),
                             " Pág. Sig. "
 
@@ -1078,10 +1078,10 @@ class MenuBoton {
                     ),
                     m("div.button-menu-left-plus", { "style": { "display": "flex" } },
                         m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    verDocPDF.onPrevPage();
-                                },
+                            onclick: (e) => {
+                                verDocPDF.onPrevPage();
                             },
+                        },
                             m("i.fas.fa-chevron-circle-left"),
                             " Pág. Ant. "
 
@@ -1090,89 +1090,89 @@ class MenuBoton {
                     m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
                         m("div.text-primary.mr-2", "Descargar"),
                         m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
+                            onclick: (e) => {
+                                e.preventDefault();
 
-                                    window.open(verDocPDF.url)
+                                window.open(verDocPDF.url)
 
 
-                                },
                             },
+                        },
                             m("i.icofont-download", { "style": { "font-size": "x-large" } })
                         )
                     ]),
                     ((!(window.matchMedia('(min-width: 1320px)').matches)) ? [
 
                         m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Cerrar"),
-                                m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                        onclick: (e) => {
-                                            e.preventDefault();
-                                            verDocPDF.show = "";
-                                            verDocPDF.url = "";
-                                            verDocPDF.numPage = 0;
-                                            verDocPDF.pageNum = 1;
-                                            if (verDocPDF.typeDoc == 'LAB') {
-                                                verDocPDF.tab = "active show";
-                                                verDocPDF.tabImagen = "";
-                                            } else {
-                                                verDocPDF.tabImagen = "active show";
-                                                verDocPDF.tab = "";
-                                            }
-                                            DetalleClinico.inZoom = "";
+                            m("div.text-primary.mr-2", "Cerrar"),
+                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                                onclick: (e) => {
+                                    e.preventDefault();
+                                    verDocPDF.show = "";
+                                    verDocPDF.url = "";
+                                    verDocPDF.numPage = 0;
+                                    verDocPDF.pageNum = 1;
+                                    if (verDocPDF.typeDoc == 'LAB') {
+                                        verDocPDF.tab = "active show";
+                                        verDocPDF.tabImagen = "";
+                                    } else {
+                                        verDocPDF.tabImagen = "active show";
+                                        verDocPDF.tab = "";
+                                    }
+                                    DetalleClinico.inZoom = "";
 
-                                        },
-                                    },
-                                    m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
+                                },
+                            },
+                                m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
 
-                                )
+                            )
 
-                            ]
+                        ]
 
                         )
                     ] : [
                         m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
                             m("div.text-primary.mr-2", "Imprimir"),
                             m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                    onclick: (e) => {
-                                        e.preventDefault();
-                                        printJS({
-                                            printable: verDocPDF.url,
-                                            type: 'pdf',
+                                onclick: (e) => {
+                                    e.preventDefault();
+                                    printJS({
+                                        printable: verDocPDF.url,
+                                        type: 'pdf',
 
-                                        })
+                                    })
 
-                                    },
                                 },
+                            },
                                 m("i.icofont-print", { "style": { "font-size": "x-large" } })
                             )
                         ]),
                         m("div.button-menu-right-zoomout", { "style": { "display": "flex" } }, [
-                                m("div.text-primary.mr-2", "Cerrar"),
-                                m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                        onclick: (e) => {
-                                            e.preventDefault();
-                                            verDocPDF.show = "";
-                                            verDocPDF.url = "";
-                                            verDocPDF.numPage = 0;
-                                            verDocPDF.pageNum = 1;
-                                            if (verDocPDF.typeDoc == 'LAB') {
-                                                verDocPDF.tab = "active show";
-                                                verDocPDF.tabImagen = "";
-                                            } else {
-                                                verDocPDF.tabImagen = "active show";
-                                                verDocPDF.tab = "";
-                                            }
-                                            DetalleClinico.inZoom = "";
+                            m("div.text-primary.mr-2", "Cerrar"),
+                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                                onclick: (e) => {
+                                    e.preventDefault();
+                                    verDocPDF.show = "";
+                                    verDocPDF.url = "";
+                                    verDocPDF.numPage = 0;
+                                    verDocPDF.pageNum = 1;
+                                    if (verDocPDF.typeDoc == 'LAB') {
+                                        verDocPDF.tab = "active show";
+                                        verDocPDF.tabImagen = "";
+                                    } else {
+                                        verDocPDF.tabImagen = "active show";
+                                        verDocPDF.tab = "";
+                                    }
+                                    DetalleClinico.inZoom = "";
 
 
-                                        },
-                                    },
-                                    m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
+                                },
+                            },
+                                m("i.icofont-close-circled", { "style": { "font-size": "x-large" } })
 
-                                )
+                            )
 
-                            ]
+                        ]
 
                         )
                     ]),
@@ -1184,79 +1184,79 @@ class MenuBoton {
             } else {
                 return [
                     m("div.button-menu-right-close", { "style": { "display": "flex" } }, [
-                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                    onclick: (e) => {
-                                        e.preventDefault();
-                                        MenuBoton.show = "";
-                                        MenuBoton.close = "d-none";
-                                        MenuBoton.zoomin = "d-none";
-                                        MenuBoton.zoomout = "d-none";
-                                        MenuBoton.reload = "d-none";
-                                    },
-                                },
-                                m("i.icofont-close", { "style": { "font-size": "x-large" } })
-                            )
+                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                            onclick: (e) => {
+                                e.preventDefault();
+                                MenuBoton.show = "";
+                                MenuBoton.close = "d-none";
+                                MenuBoton.zoomin = "d-none";
+                                MenuBoton.zoomout = "d-none";
+                                MenuBoton.reload = "d-none";
+                            },
+                        },
+                            m("i.icofont-close", { "style": { "font-size": "x-large" } })
+                        )
 
-                        ]
+                    ]
 
                     ),
                     m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
-                            m("div.text-primary.mr-2", "Actualizar"),
-                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                    onclick: (e) => {
-                                        e.preventDefault();
-                                        MenuBoton.show = "";
-                                        MenuBoton.close = "d-none";
-                                        MenuBoton.zoomin = "d-none";
-                                        MenuBoton.zoomout = "d-none";
-                                        MenuBoton.reload = "d-none";
-                                        verDocPDF.show = "";
-                                        verDocPDF.tab = "active show";
-                                        MenuBoton.setComand();
+                        m("div.text-primary.mr-2", "Actualizar"),
+                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                            onclick: (e) => {
+                                e.preventDefault();
+                                MenuBoton.show = "";
+                                MenuBoton.close = "d-none";
+                                MenuBoton.zoomin = "d-none";
+                                MenuBoton.zoomout = "d-none";
+                                MenuBoton.reload = "d-none";
+                                verDocPDF.show = "";
+                                verDocPDF.tab = "active show";
+                                MenuBoton.setComand();
 
 
-                                    },
-                                },
-                                m("i.icofont-refresh", { "style": { "font-size": "x-large" } })
-                            )
-                        ]
+                            },
+                        },
+                            m("i.icofont-refresh", { "style": { "font-size": "x-large" } })
+                        )
+                    ]
 
                     ),
                     m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
-                            m("div.text-primary.mr-2", "Aumentar"),
-                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                    onclick: (e) => {
-                                        e.preventDefault();
-                                        DetalleClinico.inZoom = "d-none";
-                                        MenuBoton.show = "";
-                                        MenuBoton.close = "d-none";
-                                        MenuBoton.zoomin = "d-none";
-                                        MenuBoton.zoomout = "d-none";
-                                        MenuBoton.reload = "d-none";
-                                    },
-                                },
-                                m("i.icofont-ui-zoom-in", { "style": { "font-size": "x-large" } })
-                            )
-                        ]
+                        m("div.text-primary.mr-2", "Aumentar"),
+                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                            onclick: (e) => {
+                                e.preventDefault();
+                                DetalleClinico.inZoom = "d-none";
+                                MenuBoton.show = "";
+                                MenuBoton.close = "d-none";
+                                MenuBoton.zoomin = "d-none";
+                                MenuBoton.zoomout = "d-none";
+                                MenuBoton.reload = "d-none";
+                            },
+                        },
+                            m("i.icofont-ui-zoom-in", { "style": { "font-size": "x-large" } })
+                        )
+                    ]
 
                     ),
                     m("div.button-menu-right-zoomout", { "style": { "display": "flex" } }, [
-                            m("div.text-primary.mr-2", "Disminuir"),
-                            m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                    onclick: (e) => {
-                                        e.preventDefault();
-                                        DetalleClinico.inZoom = "";
-                                        MenuBoton.show = "";
-                                        MenuBoton.close = "d-none";
-                                        MenuBoton.zoomin = "d-none";
-                                        MenuBoton.zoomout = "d-none";
-                                        MenuBoton.reload = "d-none";
-                                    },
-                                },
-                                m("i.icofont-ui-zoom-out", { "style": { "font-size": "x-large" } })
-                            )
+                        m("div.text-primary.mr-2", "Disminuir"),
+                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                            onclick: (e) => {
+                                e.preventDefault();
+                                DetalleClinico.inZoom = "";
+                                MenuBoton.show = "";
+                                MenuBoton.close = "d-none";
+                                MenuBoton.zoomin = "d-none";
+                                MenuBoton.zoomout = "d-none";
+                                MenuBoton.reload = "d-none";
+                            },
+                        },
+                            m("i.icofont-ui-zoom-out", { "style": { "font-size": "x-large" } })
+                        )
 
-                        ]
+                    ]
 
                     )
 
@@ -1266,80 +1266,80 @@ class MenuBoton {
         } else {
             return [
                 m("div.button-menu-right-close", { "style": { "display": "flex" } }, [
-                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
-                                    MenuBoton.show = "";
-                                    MenuBoton.close = "d-none";
-                                    MenuBoton.zoomin = "d-none";
-                                    MenuBoton.zoomout = "d-none";
-                                    MenuBoton.reload = "d-none";
-                                },
-                            },
-                            m("i.icofont-close", { "style": { "font-size": "x-large" } })
-                        )
+                    m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                        onclick: (e) => {
+                            e.preventDefault();
+                            MenuBoton.show = "";
+                            MenuBoton.close = "d-none";
+                            MenuBoton.zoomin = "d-none";
+                            MenuBoton.zoomout = "d-none";
+                            MenuBoton.reload = "d-none";
+                        },
+                    },
+                        m("i.icofont-close", { "style": { "font-size": "x-large" } })
+                    )
 
-                    ]
+                ]
 
                 ),
                 m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
-                        m("div.text-primary.mr-2", "Actualizar"),
-                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
-                                    MenuBoton.show = "";
-                                    MenuBoton.close = "d-none";
-                                    MenuBoton.zoomin = "d-none";
-                                    MenuBoton.zoomout = "d-none";
-                                    MenuBoton.reload = "d-none";
-                                    verDocPDF.show = "";
-                                    verDocPDF.tab = "active show";
+                    m("div.text-primary.mr-2", "Actualizar"),
+                    m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                        onclick: (e) => {
+                            e.preventDefault();
+                            MenuBoton.show = "";
+                            MenuBoton.close = "d-none";
+                            MenuBoton.zoomin = "d-none";
+                            MenuBoton.zoomout = "d-none";
+                            MenuBoton.reload = "d-none";
+                            verDocPDF.show = "";
+                            verDocPDF.tab = "active show";
 
-                                    MenuBoton.setComand();
+                            MenuBoton.setComand();
 
 
-                                },
-                            },
-                            m("i.icofont-refresh", { "style": { "font-size": "x-large" } })
-                        )
-                    ]
+                        },
+                    },
+                        m("i.icofont-refresh", { "style": { "font-size": "x-large" } })
+                    )
+                ]
 
                 ),
                 m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
-                        m("div.text-primary.mr-2", "Aumentar"),
-                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
-                                    DetalleClinico.inZoom = "d-none";
-                                    MenuBoton.show = "";
-                                    MenuBoton.close = "d-none";
-                                    MenuBoton.zoomin = "d-none";
-                                    MenuBoton.zoomout = "d-none";
-                                    MenuBoton.reload = "d-none";
-                                },
-                            },
-                            m("i.icofont-ui-zoom-in", { "style": { "font-size": "x-large" } })
-                        )
-                    ]
+                    m("div.text-primary.mr-2", "Aumentar"),
+                    m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                        onclick: (e) => {
+                            e.preventDefault();
+                            DetalleClinico.inZoom = "d-none";
+                            MenuBoton.show = "";
+                            MenuBoton.close = "d-none";
+                            MenuBoton.zoomin = "d-none";
+                            MenuBoton.zoomout = "d-none";
+                            MenuBoton.reload = "d-none";
+                        },
+                    },
+                        m("i.icofont-ui-zoom-in", { "style": { "font-size": "x-large" } })
+                    )
+                ]
 
                 ),
                 m("div.button-menu-right-zoomout", { "style": { "display": "flex" } }, [
-                        m("div.text-primary.mr-2", "Disminuir"),
-                        m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
-                                onclick: (e) => {
-                                    e.preventDefault();
-                                    DetalleClinico.inZoom = "";
-                                    MenuBoton.show = "";
-                                    MenuBoton.close = "d-none";
-                                    MenuBoton.zoomin = "d-none";
-                                    MenuBoton.zoomout = "d-none";
-                                    MenuBoton.reload = "d-none";
-                                },
-                            },
-                            m("i.icofont-ui-zoom-out", { "style": { "font-size": "x-large" } })
-                        )
+                    m("div.text-primary.mr-2", "Disminuir"),
+                    m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                        onclick: (e) => {
+                            e.preventDefault();
+                            DetalleClinico.inZoom = "";
+                            MenuBoton.show = "";
+                            MenuBoton.close = "d-none";
+                            MenuBoton.zoomin = "d-none";
+                            MenuBoton.zoomout = "d-none";
+                            MenuBoton.reload = "d-none";
+                        },
+                    },
+                        m("i.icofont-ui-zoom-out", { "style": { "font-size": "x-large" } })
+                    )
 
-                    ]
+                ]
 
                 )
 
@@ -1373,13 +1373,13 @@ class DetalleClinico {
             m("div.container",
                 m("div.m-pt-50.text-center", [
                     m(".alert.alert-danger[role='alert']", [
-                            DetalleResultadoPaciente.error,
-                            " Regresar a Resultados",
-                            m("a", {
-                                href: "/resultados"
-                            }, " Click Aquí"),
+                        DetalleResultadoPaciente.error,
+                        " Regresar a Resultados",
+                        m("a", {
+                            href: "/resultados"
+                        }, " Click Aquí"),
 
-                        ]
+                    ]
 
                     )
                 ])
@@ -1396,11 +1396,11 @@ class DetalleClinico {
                 }),
                 m("div.overlay." + DetalleClinico.inZoom),
                 m("div.container", {
-                        class: (DetalleClinico.inZoom.length === 0) ? "" : "bg-white",
-                        style: {
-                            "height": "2500px"
-                        }
-                    },
+                    class: (DetalleClinico.inZoom.length === 0) ? "" : "bg-white",
+                    style: {
+                        "height": "2500px"
+                    }
+                },
                     m("div.row", [
                         m(DetalleResultadoPaciente),
                         m("div", {

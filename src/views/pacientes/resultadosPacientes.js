@@ -22,23 +22,23 @@ class DataProvider {
             if (_l >= 2) {
 
                 m.request({
-                        method: "POST",
-                        url: "https://api.hospitalmetropolitano.org/v2/medicos/buscar-paciente",
-                        body: {
-                            tipoBusqueda: DataProvider.tipoBusqueda,
-                            pte: DataProvider.searchField
-                        },
-                        headers: {
-                            "Authorization": localStorage.accessToken,
-                        },
-                    })
-                    .then(function(result) {
+                    method: "POST",
+                    url: "https://api.hospitalmetropolitano.org/v2/medicos/buscar-paciente",
+                    body: {
+                        tipoBusqueda: DataProvider.tipoBusqueda,
+                        pte: DataProvider.searchField
+                    },
+                    headers: {
+                        "Authorization": localStorage.accessToken,
+                    },
+                })
+                    .then(function (result) {
                         DataProvider.loader = false;
                         DataProvider.data = [];
                         DataProvider.data = result.data;
                         DataProvider.filterData();
                     })
-                    .catch(function(e) {})
+                    .catch(function (e) { })
 
 
             } else {
@@ -49,23 +49,23 @@ class DataProvider {
         } else {
 
             m.request({
-                    method: "POST",
-                    url: "https://api.hospitalmetropolitano.org/t/v1/buscar-paciente",
-                    body: {
-                        tipoBusqueda: DataProvider.tipoBusqueda,
-                        pte: DataProvider.searchField
-                    },
-                    headers: {
-                        "Authorization": localStorage.accessToken,
-                    },
-                })
-                .then(function(result) {
+                method: "POST",
+                url: "https://api.hospitalmetropolitano.org/t/v1/buscar-paciente",
+                body: {
+                    tipoBusqueda: DataProvider.tipoBusqueda,
+                    pte: DataProvider.searchField
+                },
+                headers: {
+                    "Authorization": localStorage.accessToken,
+                },
+            })
+                .then(function (result) {
                     DataProvider.loader = false;
                     DataProvider.data = [];
                     DataProvider.data = result.data;
                     DataProvider.filterData();
                 })
-                .catch(function(e) {
+                .catch(function (e) {
 
                 })
 
@@ -135,15 +135,15 @@ class dataView {
 
         if (!DataProvider.loader) {
             return m('table.w-100.mt-5.' + dataView.show, [
-                m('tbody', DataProvider.filteredData.map(function(d) {
+                m('tbody', DataProvider.filteredData.map(function (d) {
                     return [
                         m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
                             "style": { "border-color": "#0aa1eb" }
                         }, [
                             m("h4.mb-0", [
-                                    m("i.icofont-ui-user"),
-                                    " " + d['APELLIDOS'] + ' ' + d['NOMBRES']
-                                ]
+                                m("i.icofont-ui-user"),
+                                " " + d['APELLIDOS'] + ' ' + d['NOMBRES']
+                            ]
 
                             ),
                             m("div.media.",
@@ -157,8 +157,8 @@ class dataView {
 
                                     m("div.text-right", [
                                         m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
-                                                href: "/resultados/paciente/" + d['PK_NHCL']
-                                            },
+                                            href: "/resultados/paciente/" + d['PK_NHCL']
+                                        },
                                             " Ver Paciente "
                                         )
                                     ])
@@ -225,7 +225,7 @@ class ResultadoPacientes extends App {
         this._setTitle = "Resultados de Imagen y Laboratorio";
     }
     static submitBusqueda() {
-        document.onkeypress = function(e) {
+        document.onkeypress = function (e) {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
             if (keyCode == "13") {
@@ -256,23 +256,9 @@ class ResultadoPacientes extends App {
 
                         (!DataProvider.laoder ? [m("div.col-md-12", [
                             m("div.d-flex.align-items-left.position-relative.justify-content-left", [
-                                m("div.custom-control.custom-radio.m-mb-20.mr-2.fz-20", {
-                                    "style": {
-                                        "font-size": "large"
-                                    }
-                                }, [
-                                    m("input.custom-control-input[type='radio'][id='pte'][name='tipoBusqueda'][value='pte']", {
-                                        onclick: (e) => {
-                                            if (e.target.checked) {
-                                                DataProvider.tipoBusqueda = e.target.value;
-                                            }
-                                        }
-                                    }),
-                                    m("label.custom-control-label[for='pte']",
-                                        "Apellidos y Nombres"
-                                    )
-                                ]),
+
                                 m("div.custom-control.custom-radio.m-mb-20.ml-2.mr-2", {
+
                                     "style": {
                                         "font-size": "large"
                                     }
@@ -282,7 +268,10 @@ class ResultadoPacientes extends App {
                                             if (e.target.checked) {
                                                 DataProvider.tipoBusqueda = e.target.value;
                                             }
-                                        }
+                                        },
+                                        oncreate: (el) => {
+                                            el.dom.checked = true;
+                                        },
                                     }),
                                     m("label.custom-control-label[for='cedula']",
                                         "Cédula"
@@ -304,13 +293,29 @@ class ResultadoPacientes extends App {
                                         "Historia Clínica"
                                     )
                                 ]),
+                                m("div.custom-control.custom-radio.m-mb-20.mr-2.fz-20", {
+                                    "style": {
+                                        "font-size": "large"
+                                    }
+                                }, [
+                                    m("input.custom-control-input[type='radio'][id='pte'][name='tipoBusqueda'][value='pte']", {
+                                        onclick: (e) => {
+                                            if (e.target.checked) {
+                                                DataProvider.tipoBusqueda = e.target.value;
+                                            }
+                                        }
+                                    }),
+                                    m("label.custom-control-label[for='pte']",
+                                        "Apellidos y Nombres"
+                                    )
+                                ]),
 
 
 
                             ]),
                             m("div.input-group.banenr-seach.bg-white.m-mt-30.mb-0", [
-                                m("input.form-control[type='text'][placeholder='Buscar por Apellidos y Nombres, Cédula, Historia Clínica']", {
-                                    oninput: function(e) {
+                                m("input.form-control[type='text'][placeholder='Buscar por Cédula, Historia Clínica, Apellidos y Nombres']", {
+                                    oninput: function (e) {
                                         e.target.value = e.target.value.toUpperCase();
                                         DataProvider.searchField = e.target.value;
                                     },
@@ -327,11 +332,11 @@ class ResultadoPacientes extends App {
                                         },
                                     }),
                                     m("button.btn[type='button'][id='actBuscar']", {
-                                            onclick: () => {
+                                        onclick: () => {
 
-                                                DataProvider.fetch();
-                                            },
+                                            DataProvider.fetch();
                                         },
+                                    },
                                         "Buscar"
                                     ),
 
@@ -357,13 +362,13 @@ class ResultadoPacientes extends App {
                     m("div.container",
                         m("div.row",
                             m("div.col-md-12", [
-                                    m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
-                                    m("p.mb-1.mt-1", [
-                                        m.trust("&copy;"),
-                                        new Date().getFullYear() + ". Todos los derechos reservados."
-                                    ])
+                                m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                m("p.mb-1.mt-1", [
+                                    m.trust("&copy;"),
+                                    new Date().getFullYear() + ". Todos los derechos reservados."
+                                ])
 
-                                ]
+                            ]
 
                             )
                         )

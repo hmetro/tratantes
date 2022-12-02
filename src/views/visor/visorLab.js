@@ -4,9 +4,12 @@ import Loader from '../loader';
 import printJS from 'print-js';
 import Auth from '../../models/auth';
 
-const ButtonHelp = {
-    help: false,
+class ButtonHelp {
+    static help = false;
+};
 
+class ButtonShare {
+    static help = false;
 };
 
 
@@ -361,7 +364,7 @@ class Laboratorio {
                                 m("h2.m-0.text-dark",
                                     "Ayuda"
                                 ),
-                                m("span.d-inline-block.mt-3.active", 'Opciones disponibles.')
+                                m("span.d-inline-block.mt-3.active", 'Opciones disponibles')
                             ])
                         )
                     ),
@@ -382,39 +385,72 @@ class Laboratorio {
                                         ),
 
                                     ]),
-                                    m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
-                                        m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
-                                            m("i.icofont-first-aid")
-                                        ),
-                                        m("h5.m-text-2.mb-3",
-                                            m("p.designation.", [
-                                                " Necesito un resultado anterior al 2019",
-                                            ]),
-                                        ),
 
-                                    ]),
-                                    m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
-                                        m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
-                                            m("i.icofont-first-aid")
-                                        ),
-                                        m("h5.m-text-2.mb-3",
-                                            m("p.designation", [
-                                                " Necesito este resultado en físico (CD O USB). ",
-                                            ]),
-                                        ),
-
-                                    ])
                                 ),
 
 
                             ]),
-                            m("div.row",
-                                m("div.col-md-12.text-center.m-mb-50",
-                                    m("a.btn.bordered-blue.fadeInDown-slide.animated.medim-btn.btn-bordered.mt-0.text-medium.radius-pill.bg-transparent.text-active.text-uppercase.[href='#!/salir']",
-                                        " Salir "
-                                    )
-                                )
-                            )
+
+                        ),
+
+                    ])
+                ),
+                m("div", {
+                    class: (ButtonShare.help ? '' : 'd-none')
+                },
+                    m("div.row",
+                        m("div.col-md-6.offset-md-3",
+                            m("div.text-center", [
+                                m("h2.m-0.text-dark",
+                                    "Compartir"
+                                ),
+                                m("span.d-inline-block.mt-3.active", 'Opciones disponibles')
+                            ])
+                        )
+                    ),
+
+
+                    m("div.row.m-pt-20.m-pb-60.m-mt-20", [
+                        m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
+                            m("div.row.m-mb-60.m-mt-10.", [
+                                m("div.col-12",
+
+                                    m("div", {
+                                        onclick: (e) => {
+                                            alert('POPOP');
+                                            window.open("mailto:concas@hetro.med.ec?subject=kk&body=kk");
+                                        },
+                                    }, [
+                                        m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
+                                            m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
+                                                m("i.icofont-send-mail")
+                                            ),
+                                            m("h5.m-text-2.mb-3",
+                                                m("p.designation", [
+                                                    " Compartir por correo electrónico ",
+                                                ]),
+                                            ),
+
+                                        ]),
+                                    ]),
+
+                                    m("div.bg-white.mb-0.position-relative.has-float-icon.pt-4.pl-4.pb-4.pr-4.info-box.m-mtb-20.radius-5", [
+                                        m("div.features-circle.mb-3.m-bg-3.text-active.d-inline-flex.align-items-center.justify-content-center.rounded-circle",
+                                            m("i.icofont-whatsapp")
+                                        ),
+                                        m("h5.m-text-2.mb-3",
+                                            m("p.designation.", [
+                                                " Compartir por Whatsapp",
+                                            ]),
+                                        ),
+
+                                    ]),
+
+                                ),
+
+
+                            ]),
+
                         ),
 
                     ])
@@ -493,7 +529,7 @@ class MenuBoton {
                 if (verDocPDF.numPage === 1) {
                     return [
 
-                        m("div.button-menu-right-plus", { "style": { "display": "flex" } }, [
+                        m("div.button-menu-right-p1", { "style": { "display": "flex" } }, [
                             m("div.text-primary.mr-2", "Descargar"),
                             m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                 onclick: (e) => {
@@ -509,7 +545,7 @@ class MenuBoton {
                         ]),
                         ((!(window.matchMedia('(min-width: 1320px)').matches)) ? [
 
-                            m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
+                            m("div.button-menu-right-p2", { "style": { "display": "flex" } }, [
                                 m("div.text-primary.mr-2", "Ayuda"),
                                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
@@ -521,7 +557,7 @@ class MenuBoton {
                                 )
                             ]),
                         ] : [
-                            m("div.button-menu-right-reload-pte", { "style": { "display": "flex" } }, [
+                            m("div.button-menu-right-p2", { "style": { "display": "flex" } }, [
                                 m("div.text-primary.mr-2", "Imprimir"),
                                 m("a.btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
@@ -537,11 +573,24 @@ class MenuBoton {
                                     m("i.icofont-print", { "style": { "font-size": "x-large" } })
                                 )
                             ]),
-                            m("div.button-menu-right-zoomin", { "style": { "display": "flex" } }, [
+                            m("div.button-menu-right-p3", { "style": { "display": "flex" } }, [
+                                m("div.text-primary.mr-2", "Compartir"),
+                                m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
+                                    onclick: (e) => {
+                                        e.preventDefault();
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                        ButtonShare.help = !ButtonShare.help;
+                                    },
+                                },
+                                    m("i.icofont-share", { "style": { "font-size": "x-large" } })
+                                )
+                            ]),
+                            m("div.button-menu-right-p4", { "style": { "display": "flex" } }, [
                                 m("div.text-primary.mr-2", "Ayuda"),
                                 m("btn.fadeInDown-slide.position-relative.animated.pl-3.pr-3.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2", {
                                     onclick: (e) => {
                                         e.preventDefault();
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
                                         ButtonHelp.help = !ButtonHelp.help;
                                     },
                                 },
