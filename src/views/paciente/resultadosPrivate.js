@@ -83,7 +83,8 @@ class Imagen {
     static loader = false;
     static verResultado(url) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
+        verDocPDF.tabImagen = " active show ";
+        Imagen.loader = true;
         m.request({
             method: "GET",
             url: url,
@@ -178,7 +179,7 @@ class Imagen {
     view() {
 
         if (Imagen.loader) {
-            return m(".tab-pane.mt-5.fade[id='v-pills-imagen'][role='tabpanel']", [
+            return m(".tab-pane.mt-5.fade." + verDocPDF.tabImagen + "[id='v-pills-imagen'][role='tabpanel']", [
                 m("h4.m-text-2.",
                     m("i.icofont-file-image.mr-2"),
                     "Resultados de Imagen:"
@@ -561,6 +562,7 @@ class Laboratorio {
     static verResultado(url) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         Laboratorio.loader = true;
+        verDocPDF.tab = " active show ";
         m.request({
             method: "GET",
             url: url,
@@ -677,7 +679,7 @@ class Laboratorio {
     view() {
 
         if (Laboratorio.loader) {
-            return m(".tab-pane.mt-5.fade[id='v-pills-lab'][role='tabpanel']", [
+            return m(".tab-pane.mt-5.fade." + verDocPDF.tab + "[id='v-pills-lab'][role='tabpanel']", [
                 m("h4.m-text-2.",
                     m("i.icofont-laboratory.mr-2"),
                     "Resultados de Laboratorio:"

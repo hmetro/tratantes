@@ -84,7 +84,8 @@ class Imagen {
     static loader = false;
     static verResultado(url) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-
+        verDocPDF.tabImagen = " active show ";
+        Imagen.loader = true;
         m.request({
             method: "GET",
             url: url,
@@ -565,6 +566,7 @@ class Laboratorio {
     static verResultado(url) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
         Laboratorio.loader = true;
+        verDocPDF.tab = " active show ";
         m.request({
             method: "GET",
             url: url,
