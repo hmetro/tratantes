@@ -2,6 +2,8 @@ import Auth from '../../models/auth';
 import HeaderPrivate from '../layout/header-private';
 import App from '../app';
 import Loader from '../loader';
+import m from 'mithril';
+
 
 
 class DataProviderInter {
@@ -80,8 +82,23 @@ class DataProvider {
             headers: {
                 "Authorization": localStorage.accessToken,
             },
+            extract: function (xhr) {
+
+                let jsonXHR = JSON.parse(xhr.responseText);
+
+                if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
+                    alert(jsonXHR.message);
+                    window.location.href = "/salir";
+                }
+
+                return { status: xhr.status, body: JSON.parse(xhr.responseText) }
+
+            }
+
         })
-            .then(function (result) {
+            .then(function (response) {
+
+                let result = response.body;
 
                 DataProvider.loader = false;
 

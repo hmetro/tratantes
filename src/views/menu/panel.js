@@ -8,7 +8,7 @@ var _modulos_ = [
 
 class Modulos {
     view() {
-        return _modulos_.map(function(i) {
+        return _modulos_.map(function (i) {
 
             if (i.id == 1) {
                 return m("div.col-sm-12.col-md-12.col-lg-6",
@@ -46,9 +46,13 @@ class Modulos {
 
             if (i.id == 3) {
                 return m("div.col-sm-12.col-md-12.col-lg-6",
-                    m("a", {
-                        href: "https://appdocumentosdirmed.azurewebsites.net/DM/Login/Auth2Factor/" + localStorage.appUser + "/" + localStorage.accessToken,
-                        target: "_blank"
+                    m(".", {
+                        style: {
+                            "cursor": "pointer"
+                        },
+                        onclick: (e) => {
+                            window.location.href = "https://appdocumentosdirmed.azurewebsites.net/DM/Login/Auth2Factor/" + localStorage.appUser + "/" + localStorage.accessToken;
+                        }
 
                     }, [
                         m("div.single-service.type-1.radius-10.position-relative.service-wrapper.s-dp-10-60.m-mb-50", [
@@ -65,7 +69,7 @@ class Modulos {
 
             if (i.id == 4) {
                 return m("div.col-sm-12.col-md-12.col-lg-6",
-                    m("a", {
+                    m(".", {
                         href: "https://appdocumentosdirmed.azurewebsites.net/DM/Login/Auth2Factor/" + localStorage.appUser + "/" + localStorage.accessToken,
                         target: "_blank"
 
@@ -108,7 +112,32 @@ class MenuPanel {
                     ),
                     m("div.row.m-pt-20.m-pb-60", [
                         m(Modulos)
-                    ])
+                    ]),
+                    m("footer", [
+
+                        m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
+                            m("div.container",
+                                m("div.row",
+                                    m("div.col-md-12", [
+                                        m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                        m("p.mb-1.mt-1", [
+                                            m.trust("&copy;"),
+                                            new Date().getFullYear() + ". Todos los derechos reservados."
+                                        ])
+
+                                    ]
+
+                                    )
+                                )
+                            )
+                        ),
+                        m("div.footer-bottom.text-center.m-mt-120.m-bg-1.pt-4.pb-4",
+                            m("div.container",
+
+                            )
+                        )
+                    ]),
+
                 )
             ),
 

@@ -7,25 +7,27 @@ class VisorRis {
     oninit() {
 
         m.request({
-                method: "POST",
-                url: "https://api.hospitalmetropolitano.org/t/v1/check-point-rx",
-                body: {
-                    id: ViewerImg.id
-                },
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-            })
-            .then(function(result) {
+            method: "POST",
+            url: "https://api.hospitalmetropolitano.org/t/v1/check-point-rx",
+            body: {
+                id: ViewerImg.id
+            },
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+        })
+            .then(function (result) {
 
                 if (result.status) {
                     VisorRis.idExamen = result.id;
+                    ViewerImg.hashId = result.hashReport;
+
                 } else {
                     alert('No pudimos procesar esta petición. Escríbenos a nuestra Mesa de Ayuda concas@hmetro.med.ec. Tel: 02 399 8000 Ext: 2020.');
                 }
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
 
             });
 
@@ -62,8 +64,19 @@ class VisorRis {
 
                 ]),
             ),
+            m("div.button-menu-right-p1", { "style": { "display": (ViewerImg.hashId !== null ? "flex" : "none"), "right": "9rem" } },
+                m("a.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[href='/resultado/i/" + ViewerImg.hashId + "'][target='_blank']", {
 
-            m("div.button-menu-right-plus", { "style": { "display": "flex" } },
+                }, [
+                    m("i.icofont-file-alt"),
+
+                    " Ver Informe"
+
+                ])
+            ),
+
+
+            m("div.button-menu-right-p1", { "style": { "display": "flex" } },
                 m("button.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[type='button']", {
                     onclick: () => {
                         alert('Si tienes inconvenientes con este resultado. Escríbenos a nuestra Mesa de Ayuda concas@hmetro.med.ec. Tel: 02 399 8000 Ext: 2020.');
@@ -83,6 +96,7 @@ class VisorRis {
 
 class ViewerImg extends App {
     static id = null;
+    static hashId = null;
     constructor() {
         super();
     }
