@@ -12,6 +12,7 @@ import VisorLab from '../views/visor/visorLab';
 import VisorImg from '../views/visor/visorImg';
 import ViewerImg from '../views/visor/viewerImg';
 import ResultadoPacientes from '../views/pacientes/resultadosPacientes';
+import Honorarios from '../views/honorarios/honorarios';
 
 
 // Routes here
@@ -27,6 +28,7 @@ const Routes = {
     '/resultado/i/:id': VisorImg, // VisorImg
     '/viewer/:id': ViewerImg, // ViewerImg
     '/mi-perfil': MiPerfil, // MiPerfil
+    '/honorarios': Honorarios, // Honorarios
     '/salir': Salir, // Salir
     "/:404...": _404
 };
