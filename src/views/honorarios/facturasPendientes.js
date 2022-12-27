@@ -4,6 +4,93 @@ import App from '../app';
 import Loader from '../loader';
 import m from 'mithril';
 
+class DataProviderPublicas {
+    static data = [];
+    static filteredData = [];
+    static searchField = "";
+    static show = "";
+    static fetch() {
+
+
+
+            DataProviderPublicas.data = [];
+            Loader.show = "";
+            Loader.buttonShow = "";
+            m.request({
+                    method: "POST",
+                    url: "https://api.hospitalmetropolitano.org/h2/v1/mis-facturas-pendientes?typeFilter=" + dataViewPublicas.typeFilter,
+                    headers: {
+                        "Authorization": localStorage.accessToken,
+                    },
+                })
+                .then(function(result) {
+                    Loader.show = "d-none";
+                    Loader.buttonShow = "d-none";
+                    PendienteHonorarios.codMedico = result.codMedico;
+                    DataProviderPublicas.data = result.data;
+                    DataProviderPublicas.filterData();
+                })
+                .catch(function(e) {
+                    DataProviderPublicas.fetch();
+                })
+
+
+
+
+        },
+        loadData: function() {
+            DataProviderPublicas.fetch();
+        },
+        filterData: function() {
+            var to = Math.min(DataProviderPublicas.from + DataProviderPublicas.count, DataProviderPublicas.data.length + 1);
+            DataProviderPublicas.filteredData = [];
+            for (var i = DataProviderPublicas.from - 1; i < to - 1; i++) {
+                DataProviderPublicas.filteredData.push(DataProviderPublicas.data[i]);
+            }
+        },
+        from: 1,
+        count: 10,
+        setFrom: function(from) {
+            DataProviderPublicas.from = parseInt(from);
+            DataProviderPublicas.filterData();
+        },
+        setCount: function(count) {
+            DataProviderPublicas.count = parseInt(count);
+            DataProviderPublicas.filterData();
+        },
+        nextPage: function() {
+            var from = DataProviderPublicas.from + DataProviderPublicas.count;
+            if (from > DataProviderPublicas.data.length)
+                return;
+            DataProviderPublicas.from = from;
+            DataProviderPublicas.filterData();
+        },
+        lastPage: function() {
+            DataProviderPublicas.from = DataProviderPublicas.data.length - DataProviderPublicas.count + 1;
+            DataProviderPublicas.filterData();
+        },
+        prevPage: function() {
+            DataProviderPublicas.from = Math.max(1, DataProviderPublicas.from - DataProviderPublicas.count);
+            DataProviderPublicas.filterData();
+        },
+        firstPage: function() {
+            DataProviderPublicas.from = 1;
+            DataProviderPublicas.filterData();
+        },
+        rowBack: function() {
+            DataProviderPublicas.from = Math.max(1, DataProviderPublicas.from - 1);
+            DataProviderPublicas.filterData();
+        },
+        rowFwd: function() {
+            if (DataProviderPublicas.from + DataProviderPublicas.count - 1 >= DataProviderPublicas.data.length)
+                return;
+            DataProviderPublicas.from += 1;
+            DataProviderPublicas.filterData();
+        }
+};
+
+
+
 class DataProvider {
     static data = [];
     static filteredData = [];
@@ -15,7 +102,7 @@ class DataProvider {
         DataProvider.loader = true;
         m.request({
                 method: "POST",
-                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-facturas-pagadas?typeFilter=" + dataView.typeFilter + "&start=0&length=1000" + (dataView.typeFilter == 3 ? "&fechaDesde=" + FacturasPagadas.fechaDesde + "&fechaHasta=" + FacturasPagadas.fechaHasta : ""),
+                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-facturas-pagadas?typeFilter=" + dataView.typeFilter + "&start=0&length=1000" + (dataView.typeFilter == 3 ? "&fechaDesde=" + FacturasPendientes.fechaDesde + "&fechaHasta=" + FacturasPendientes.fechaHasta : ""),
                 body: {
                     searchField: DataProvider.searchField
                 },
@@ -44,7 +131,7 @@ class DataProvider {
 
                 if (result.status) {
 
-                    FacturasPagadas.codMedico = result.codMedico;
+                    FacturasPendientes.codMedico = result.codMedico;
                     DataProvider.data = result.data;
                     DataProvider.filterData();
 
@@ -124,12 +211,12 @@ class dataView {
     static plNumeroTransaccion = "";
     oninit = DataProvider.loadData;
     oncreate() {
-        FacturasPagadas.submitBusqueda();
+        FacturasPendientes.submitBusqueda();
     }
     static downloadPlanilla() {
-        console.log('codMedico', FacturasPagadas);
+        console.log('codMedico', FacturasPendientes);
         console.log('dataView', dataView);
-        window.location = 'https://api.hospitalmetropolitano.org/h2/v0/controlador/descarga_documentos/preparar_planilla_pago.php?proveedor=' + FacturasPagadas.codMedico + '&fecha_transaccion=' + dataView.plFechaTransaccion + '&numero_transaccion=' + dataView.plNumeroTransaccion + '&tipo_imprime=PAGOS';
+        window.location = 'https://api.hospitalmetropolitano.org/h2/v0/controlador/descarga_documentos/preparar_planilla_pago.php?proveedor=' + FacturasPendientes.codMedico + '&fecha_transaccion=' + dataView.plFechaTransaccion + '&numero_transaccion=' + dataView.plNumeroTransaccion + '&tipo_imprime=PAGOS';
     }
     view() {
 
@@ -226,7 +313,7 @@ class pageTool {
     }
 };
 
-class FacturasPagadas extends App {
+class FacturasPendientes extends App {
     static codMedico = "";
     static showFechas = "d-none";
     static showSearch = "";
@@ -282,8 +369,8 @@ class FacturasPagadas extends App {
                                             onclick: (e) => {
                                                 if (e.target.checked) {
                                                     dataView.typeFilter = 1;
-                                                    FacturasPagadas.showSearch = "";
-                                                    FacturasPagadas.showFechas = "d-none";
+                                                    FacturasPendientes.showSearch = "";
+                                                    FacturasPendientes.showFechas = "d-none";
                                                 }
                                             },
                                             oncreate: (el) => {
@@ -304,8 +391,8 @@ class FacturasPagadas extends App {
                                             onclick: (e) => {
                                                 if (e.target.checked) {
                                                     dataView.typeFilter = 2;
-                                                    FacturasPagadas.showSearch = "";
-                                                    FacturasPagadas.showFechas = "d-none";
+                                                    FacturasPendientes.showSearch = "";
+                                                    FacturasPendientes.showFechas = "d-none";
                                                 }
                                             }
                                         }),
@@ -322,8 +409,8 @@ class FacturasPagadas extends App {
                                             onclick: (e) => {
                                                 if (e.target.checked) {
                                                     dataView.typeFilter = 3;
-                                                    FacturasPagadas.showSearch = "d-none";
-                                                    FacturasPagadas.showFechas = "";
+                                                    FacturasPendientes.showSearch = "d-none";
+                                                    FacturasPendientes.showFechas = "";
                                                 }
                                             }
                                         }),
@@ -335,7 +422,7 @@ class FacturasPagadas extends App {
 
                                 ]),
                                 m("div.input-group.banenr-seach.bg-white.m-mt-30.mb-0", {
-                                    class: FacturasPagadas.showSearch
+                                    class: FacturasPendientes.showSearch
                                 }, [
                                     m("input.form-control[type='text'][placeholder='Buscar']", {
                                         oninput: function(e) {
@@ -365,21 +452,21 @@ class FacturasPagadas extends App {
                                     )
                                 ]),
                                 m("div.input-group.banenr-seach.bg-white.m-mt-30.mb-0", {
-                                    class: FacturasPagadas.showFechas
+                                    class: FacturasPendientes.showFechas
                                 }, [
                                     m("label.d-inline", 'Desde:'),
                                     m("input.form-control[type='date'][placeholder='Desde'][id='fechaDesde']", {
                                         oninput: function(e) {
-                                            FacturasPagadas.fechaDesde = e.target.value;
+                                            FacturasPendientes.fechaDesde = e.target.value;
                                         },
-                                        value: FacturasPagadas.fechaDesde,
+                                        value: FacturasPendientes.fechaDesde,
                                     }),
                                     m("label.d-inline", 'Hasta:'),
                                     m("input.form-control[type='date'][placeholder='Desde'][id='fechaDesde']", {
                                         oninput: function(e) {
-                                            FacturasPagadas.fechaHasta = e.target.value;
+                                            FacturasPendientes.fechaHasta = e.target.value;
                                         },
-                                        value: FacturasPagadas.fechaHasta,
+                                        value: FacturasPendientes.fechaHasta,
                                     }),
                                     m("div.input-group-append",
 
@@ -442,4 +529,4 @@ class FacturasPagadas extends App {
     }
 };
 
-export default FacturasPagadas;
+export default FacturasPendientes;

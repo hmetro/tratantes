@@ -13,6 +13,7 @@ import VisorImg from '../views/visor/visorImg';
 import ViewerImg from '../views/visor/viewerImg';
 import ResultadoPacientes from '../views/pacientes/resultadosPacientes';
 import Honorarios from '../views/honorarios/honorarios';
+import FacturasPagadas from '../views/honorarios/facturasPagadas';
 
 
 // Routes here
@@ -29,6 +30,7 @@ const Routes = {
     '/viewer/:id': ViewerImg, // ViewerImg
     '/mi-perfil': MiPerfil, // MiPerfil
     '/honorarios': Honorarios, // Honorarios
+    '/honorarios/facturas-pagadas': FacturasPagadas, //FacturasPagadas
     '/salir': Salir, // Salir
     "/:404...": _404
 };
