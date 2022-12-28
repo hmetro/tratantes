@@ -1,10 +1,10 @@
 import Auth from '../../models/auth';
 import HeaderPublic from '../layout/header-public';
 import FooterPublic from '../layout/footer-public';
-import FormLogin from './formlogin';
+import FormRegistro from './formRegistro';
 import App from '../app';
 
-class Login extends App {
+class Registro extends App {
     constructor() {
         super();
     }
@@ -15,9 +15,9 @@ class Login extends App {
     }
     oncreate() {
         this.mainLayout();
-        this.submitLogin();
+        Registro.submitRegistro();
     }
-    static submitLogin() {
+    static submitRegistro() {
         document.onkeypress = function(e) {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
@@ -31,10 +31,10 @@ class Login extends App {
     view() {
         return [
             m(HeaderPublic),
-            m(FormLogin),
+            m(FormRegistro),
             m(FooterPublic)
         ];
     }
 };
 
-export default Login;
+export default Registro;

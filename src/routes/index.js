@@ -17,6 +17,7 @@ import FacturasPagadas from '../views/honorarios/facturasPagadas';
 import FacturasPendientes from '../views/honorarios/facturasPendientes';
 import EstadoCuenta from '../views/honorarios/estadocuenta';
 import Transferencias from '../views/honorarios/transferencias';
+import Registro from '../views/registro/registro';
 
 
 // Routes here
@@ -24,6 +25,7 @@ const Routes = {
     '/': App,
     '/inicio': Inicio, //Inicio
     '/auth': Login, // Login
+    '/registro': Registro, // Registro
     '/pacientes': Pacientes, // Pacientes
     '/paciente/:nhc': Paciente, // Paciente
     '/resultados/paciente/:nhc': ResultadosPacientePrivate, // Resultados de Paciente Private

@@ -54,6 +54,15 @@ class FormLogin {
                                 )
                             ]),
                             m("div.mt-4.text-center", [
+                                "¿No tienes una cuenta? ",
+                                m("a.text-15.text-primary", {
+                                        style: { "cursor": "pointer" },
+                                        href: "/registro"
+                                    },
+                                    "Regístrate"
+                                )
+                            ]),
+                            m("div.mt-.text-center", [
                                 m("a.text-15.text-primary", {
                                         style: { "cursor": "pointer" },
                                         onclick: (e) => {
