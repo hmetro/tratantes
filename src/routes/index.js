@@ -14,6 +14,9 @@ import ViewerImg from '../views/visor/viewerImg';
 import ResultadoPacientes from '../views/pacientes/resultadosPacientes';
 import Honorarios from '../views/honorarios/honorarios';
 import FacturasPagadas from '../views/honorarios/facturasPagadas';
+import FacturasPendientes from '../views/honorarios/facturasPendientes';
+import EstadoCuenta from '../views/honorarios/estadocuenta';
+import Transferencias from '../views/honorarios/transferencias';
 
 
 // Routes here
@@ -31,6 +34,9 @@ const Routes = {
     '/mi-perfil': MiPerfil, // MiPerfil
     '/honorarios': Honorarios, // Honorarios
     '/honorarios/facturas-pagadas': FacturasPagadas, //FacturasPagadas
+    '/honorarios/facturas-pendientes': FacturasPendientes, // FacturasPendientes
+    '/honorarios/estado-de-cuenta': EstadoCuenta, // EstadoCuenta
+    '/honorarios/transferencias': Transferencias, // Transferencias
     '/salir': Salir, // Salir
     "/:404...": _404
 };
