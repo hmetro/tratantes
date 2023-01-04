@@ -1,4 +1,5 @@
 import Auth from '../../models/auth';
+import Register from '../../models/register';
 import HeaderPublic from '../layout/header-public';
 import FooterPublic from '../layout/footer-public';
 import FormRegistro from './formRegistro';
@@ -22,7 +23,7 @@ class Registro extends App {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
             if (keyCode == "13") {
-                if (Auth.canSubmit()) {
+                if (Register.canSubmit()) {
                     document.getElementsByTagName('button')[0].click();
                 }
             }

@@ -91,7 +91,8 @@ class Register {
             .then(function(data) {
 
                 if (data.status) {
-                    Register.setSuccess('Bienvenido');
+                    alert('Proceso realizado con éxito. Hemos enviado un correo electrónico a: ' + Register.correoElectronico);
+                    location.href = "/";
                 } else {
                     Register.imputDisabled = false;
                     Register.statusHide = "d-none";
@@ -102,7 +103,7 @@ class Register {
 
             }).catch(function(error) {
 
-                Register.login();
+                Register.register();
             });
     }
     static isLogin() {
@@ -145,6 +146,7 @@ class Register {
                 Register.login();
             });
     }
+
 };
 
 

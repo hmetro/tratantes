@@ -15,7 +15,7 @@ class Login extends App {
     }
     oncreate() {
         this.mainLayout();
-        this.submitLogin();
+        Login.submitLogin();
     }
     static submitLogin() {
         document.onkeypress = function(e) {

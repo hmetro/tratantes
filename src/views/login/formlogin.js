@@ -65,12 +65,8 @@ class FormLogin {
                             m("div.mt-.text-center", [
                                 m("a.text-15.text-primary", {
                                         style: { "cursor": "pointer" },
-                                        onclick: (e) => {
-                                            e.preventDefault();
-                                            alert('En este momento te redirigiremos al portal de nuestra Mesa de Ayuda. Si tienes inconvenientes escríbenos a concas@hmetro.med.ec. Tel: 02 399 8000 Ext: 2020.')
-                                            window.location = 'https://metropolitano.proactivanet.com/proactivanet/portal/ui/loginform/changePasswordAD.paw'
+                                        href: "/lostpass"
 
-                                        },
                                     },
                                     "¿Recuperar contraseña?"
                                 )

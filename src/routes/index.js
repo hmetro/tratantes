@@ -18,6 +18,8 @@ import FacturasPendientes from '../views/honorarios/facturasPendientes';
 import EstadoCuenta from '../views/honorarios/estadocuenta';
 import Transferencias from '../views/honorarios/transferencias';
 import Registro from '../views/registro/registro';
+import Verify from '../views/verify';
+import LostPass from '../views/lostpass/lostpass';
 
 
 // Routes here
@@ -26,6 +28,7 @@ const Routes = {
     '/inicio': Inicio, //Inicio
     '/auth': Login, // Login
     '/registro': Registro, // Registro
+    '/lostpass': LostPass, // LostPass
     '/pacientes': Pacientes, // Pacientes
     '/paciente/:nhc': Paciente, // Paciente
     '/resultados/paciente/:nhc': ResultadosPacientePrivate, // Resultados de Paciente Private
@@ -40,6 +43,7 @@ const Routes = {
     '/honorarios/estado-de-cuenta': EstadoCuenta, // EstadoCuenta
     '/honorarios/transferencias': Transferencias, // Transferencias
     '/salir': Salir, // Salir
+    '/verify': Verify, // Verify
     "/:404...": _404
 };
 
