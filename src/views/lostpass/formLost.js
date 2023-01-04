@@ -103,6 +103,8 @@ class FormLostPass {
                 alert(data.message);
                 if (data.status) {
                     location.href = "/";
+                } else {
+                    location.href = "/registro";
                 }
             }).catch(function(error) {
                 FormLostPass.recoveryPass;
