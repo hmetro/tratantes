@@ -23,9 +23,16 @@ class Registro extends App {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
             if (keyCode == "13") {
-                if (Register.canSubmit()) {
-                    document.getElementsByTagName('button')[0].click();
+                if (Register.isValidated) {
+                    if (Register.canSubmit()) {
+                        document.getElementsByTagName('button')[1].click();
+                    }
+                } else {
+                    if (Register.canSubmitRUC()) {
+                        document.getElementsByTagName('button')[0].click();
+                    }
                 }
+
             }
         };
     }
