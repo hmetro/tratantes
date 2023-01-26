@@ -278,8 +278,9 @@ class Imagen {
                                                             m("button.capsul.fz-poppins.text-default.radius-pill.active", {
                                                                 title: " Ver Resultado ",
                                                                 onclick: () => {
-                                                                    Imagen.loader = true;
-                                                                    Imagen.verResultado(_v.urlPdf);
+                                                                    // Imagen.loader = true;
+                                                                    //Imagen.verResultado(_v.urlPdf);
+                                                                    window.open(_v.deep_link)
 
                                                                 },
                                                                 "style": { "cursor": "pointer" }
@@ -730,8 +731,10 @@ class Laboratorio {
                                                             m("button.capsul.fz-poppins.text-default.radius-pill.active", {
                                                                 title: " Ver Resultado ",
                                                                 onclick: () => {
-                                                                    Laboratorio.loader = true;
-                                                                    Laboratorio.verResultado(_v.urlPdf);
+                                                                    //Laboratorio.loader = true;
+                                                                    // Laboratorio.verResultado(_v.urlPdf);
+                                                                    window.open(_v.deep_link)
+
 
                                                                 },
                                                                 "style": { "cursor": "pointer" }

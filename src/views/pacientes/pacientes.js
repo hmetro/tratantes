@@ -64,6 +64,7 @@ class DataProviderInter {
         DataProviderInter.from += 1;
         DataProviderInter.filterData();
     }
+
 };
 
 
@@ -73,7 +74,7 @@ class DataProvider {
     static searchField = "";
     static show = "";
     static loader = true;
-    static fetch() {
+    static fetchBusqueda() {
 
         DataProvider.loader = true;
         m.request({
@@ -104,12 +105,84 @@ class DataProvider {
 
                 if (result.status) {
 
+
                     Pacientes.codMedico = result.codMedico;
                     DataProvider.data = result.dataTra;
                     DataProvider.filterData();
 
                     DataProviderInter.data = result.dataInter;
                     DataProviderInter.loadData();
+
+                    if (DataProvider.data.length == 0 && DataProviderInter.data.length !== 0) {
+                        dataView.show = "d-none";
+                        dataViewInter.show = "";
+                    }
+
+                    if (DataProvider.data.length !== 0 && DataProviderInter.data.length == 0) {
+                        dataView.show = "";
+                        dataViewInter.show = "d-none";
+                    }
+
+
+                } else {
+                    alert('No existe resultados para tu búsqueda.')
+                }
+
+
+
+
+            })
+            .catch(function(e) {
+                DataProvider.fetchBusqueda();
+            })
+
+
+
+
+    }
+    static fetch() {
+
+
+
+        DataProvider.loader = true;
+        m.request({
+                method: "GET",
+                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
+                headers: {
+                    "Authorization": localStorage.accessToken,
+                },
+                extract: function(xhr) {
+
+                    let jsonXHR = JSON.parse(xhr.responseText);
+
+                    if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
+                        alert(jsonXHR.message);
+                        window.location.href = "/salir";
+                    }
+
+                    return { status: xhr.status, body: JSON.parse(xhr.responseText) }
+
+                }
+
+            })
+            .then(function(response) {
+
+                let result = response.body;
+
+                DataProvider.loader = false;
+
+                if (result.status) {
+
+
+                    Pacientes.codMedico = result.codMedico;
+                    DataProvider.data = result.dataTra;
+                    DataProvider.filterData();
+
+                    DataProviderInter.data = result.dataInter;
+                    DataProviderInter.loadData();
+
+
+
 
                 } else {
                     alert('No existe resultados para tu búsqueda.')
@@ -252,7 +325,7 @@ class dataView {
 }
 
 class dataViewInter {
-    static show = "";
+    static show = "d-none";
     oninit = DataProviderInter.loadData;
     view() {
         if (!DataProvider.loader) {
@@ -318,31 +391,30 @@ class dataViewInter {
     }
 };
 
-
 class pageTool {
     view() {
-        if (DataProvider.loader == false && DataProvider.data.length !== 0 && dataView.show == "" && DataProvider.filteredData.length !== 0) {
+        if (DataProvider.loader == false && DataProvider.data.length !== 0 && DataProvider.filteredData.length !== 0) {
             if (DataProvider.data.length === 0) {
 
                 return [
-                    m("div.text-center.w-100.mt-5", [
-                        m('span', '(0) Resultado(s)'),
+                    m("div.d-inline", [
+                        m('span', ' (0)'),
                     ]),
                 ]
 
             } else if (DataProvider.data.length > 10) {
 
                 return [
-                    m("div.text-center.w-100.mt-5", [
-                        m('span', '(' + DataProvider.data.length + ') Resultado(s) '),
+                    m("div.d-inline", [
+                        m('span', ' (' + DataProvider.data.length + ')'),
                     ]),
 
                 ]
 
             } else {
                 return [
-                    m("div.text-center.w-100.mt-5", [
-                        m('span', '(' + DataProvider.data.length + ') Resultado(s) '),
+                    m("div.d-inline", [
+                        m('span', ' (' + DataProvider.data.length + ')'),
                     ]),
                 ]
 
@@ -352,24 +424,23 @@ class pageTool {
     }
 };
 
-
 class pageToolInter {
     view() {
 
-        if (DataProvider.loader == false && DataProviderInter.data.length !== 0 && dataViewInter.show == "" && DataProviderInter.filteredData.length !== 0) {
+        if (DataProvider.loader == false && DataProviderInter.data.length !== 0 && DataProviderInter.filteredData.length !== 0) {
             if (DataProviderInter.data.length === 0) {
 
                 return [
-                    m("div.text-center.w-100.mt-5", [
-                        m('span', '(0) Resultado(s)'),
+                    m("div.d-inline", [
+                        m('span', ' (0)'),
                     ]),
                 ]
 
             } else if (DataProviderInter.data.length > 10) {
 
                 return [
-                    m("div.text-center.w-100.mt-5", [
-                        m('span', '(' + DataProviderInter.data.length + ') Resultado(s) '),
+                    m("div.d-inline", [
+                        m('span', ' (' + DataProviderInter.data.length + ')'),
                     ]),
 
 
@@ -377,8 +448,8 @@ class pageToolInter {
 
             } else {
                 return [
-                    m("div.text-center.w-100.mt-5", [
-                        m('span', '(' + DataProviderInter.data.length + ') Resultado(s) '),
+                    m("div.d-inline", [
+                        m('span', ' (' + DataProviderInter.data.length + ')'),
                     ]),
                 ]
 
@@ -443,7 +514,9 @@ class Pacientes extends App {
                                 }, [
                                     m("input.custom-control-input[type='radio'][id='tratante'][name='typeShow'][value='tratante']", {
                                         oncreate: (e) => {
-                                            e.dom.checked = true;
+                                            if (DataProvider.data.length !== 0 && DataProviderInter.data.length !== 0) {
+                                                e.dom.checked = true;
+                                            }
                                         },
                                         onclick: (e) => {
                                             if (e.target.checked) {
@@ -453,8 +526,11 @@ class Pacientes extends App {
                                         }
 
                                     }),
-                                    m("label.custom-control-label[for='tratante']",
-                                        ((Pacientes.codMedico == "0") ? "Emergencia" : "Soy Tratante")
+                                    m("label.custom-control-label[for='tratante']", [
+                                            ((Pacientes.codMedico == "0") ? "Emergencia" : "Soy Tratante"),
+                                            m(pageTool)
+                                        ]
+
                                     )
                                 ]),
                                 m("div.custom-control.custom-radio.m-mb-20.ml-2.mr-2", {
@@ -470,9 +546,12 @@ class Pacientes extends App {
                                             }
                                         }
                                     }),
-                                    m("label.custom-control-label[for='inter']",
-                                        ((Pacientes.codMedico == "0") ? "Hospitalización" : "Interconsulta")
-                                    )
+                                    m("label.custom-control-label[for='inter']", [
+                                        ((Pacientes.codMedico == "0") ? "Hospitalización" : "Interconsulta"),
+
+                                        m(pageToolInter)
+
+                                    ])
                                 ]),
 
 
@@ -492,13 +571,12 @@ class Pacientes extends App {
                                         class: (DataProvider.searchField.length !== 0) ? "" : "d-none",
                                         onclick: () => {
                                             DataProvider.searchField = "";
-                                            DataProvider.fetch();
+                                            DataProvider.fetchBusqueda();
                                         },
                                     }),
                                     m("button.btn[type='button'][id='actBuscar']", {
                                             onclick: () => {
-
-                                                DataProvider.fetch();
+                                                DataProvider.fetchBusqueda();
                                             },
                                         },
                                         "Buscar"
@@ -512,16 +590,11 @@ class Pacientes extends App {
                     ),
                     m("div.row.m-pt-20.m-pb-60.m-mt-20", [
                         m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
-                            m(pageTool),
-                            m(dataView),
-
+                            m(dataView)
                         ),
                         m("div.col-12.pd-r-0.pd-l-0.pd-b-20",
-                            m(pageToolInter),
-                            m(dataViewInter),
-
-                        ),
-
+                            m(dataViewInter)
+                        )
                     ])
                 )
             ),
