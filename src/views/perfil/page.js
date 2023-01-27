@@ -1,5 +1,10 @@
-const PagePerfil = {
+import Auth from "../../models/auth";
 
+const PagePerfil = {
+    user: null,
+    oninit: () => {
+        PagePerfil.user = Auth.getDataUser();
+    },
     view: () => {
 
 
@@ -12,7 +17,7 @@ const PagePerfil = {
                             m("div.text-center.m-mt-70", [
 
                                 m("h2.text-dark",
-                                    "Hola, " + localStorage.appUser
+                                    "Hola, " + PagePerfil.user.data.user
                                 ),
 
                             ])
@@ -27,7 +32,9 @@ const PagePerfil = {
                                 ),
 
                                 m("h5.m-text-2.mb-3.text-uppercase",
-                                    "Mi Perfil"
+                                    "Mi Perfil:",
+                                    m("br"),
+                                    (PagePerfil.user.data.codMedico != '0' ? "MÉDICO TRATANTE" : "MÉDICO RESIDENTE")
                                 ),
 
                             ])
@@ -44,12 +51,7 @@ const PagePerfil = {
                     )
                 ])
             ),
-            m("div.button-menu-center.text-center",
-                m("a.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[href='/']", [
-                    m("i.icofont-home"),
-                    " Inicio "
-                ])
-            )
+
         ];
     },
 

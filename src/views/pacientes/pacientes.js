@@ -78,26 +78,26 @@ class DataProvider {
 
         DataProvider.loader = true;
         m.request({
-                method: "GET",
-                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-                extract: function(xhr) {
+            method: "GET",
+            url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+            extract: function (xhr) {
 
-                    let jsonXHR = JSON.parse(xhr.responseText);
+                let jsonXHR = JSON.parse(xhr.responseText);
 
-                    if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
-                        alert(jsonXHR.message);
-                        window.location.href = "/salir";
-                    }
-
-                    return { status: xhr.status, body: JSON.parse(xhr.responseText) }
-
+                if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
+                    alert(jsonXHR.message);
+                    window.location.href = "/salir";
                 }
 
-            })
-            .then(function(response) {
+                return { status: xhr.status, body: JSON.parse(xhr.responseText) }
+
+            }
+
+        })
+            .then(function (response) {
 
                 let result = response.body;
 
@@ -132,7 +132,7 @@ class DataProvider {
 
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 DataProvider.fetchBusqueda();
             })
 
@@ -146,26 +146,26 @@ class DataProvider {
 
         DataProvider.loader = true;
         m.request({
-                method: "GET",
-                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
-                headers: {
-                    "Authorization": localStorage.accessToken,
-                },
-                extract: function(xhr) {
+            method: "GET",
+            url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-pacientes?start=0&length=1000" + ((DataProvider.searchField.length !== 0) ? "&searchField=" + DataProvider.searchField : ""),
+            headers: {
+                "Authorization": localStorage.accessToken,
+            },
+            extract: function (xhr) {
 
-                    let jsonXHR = JSON.parse(xhr.responseText);
+                let jsonXHR = JSON.parse(xhr.responseText);
 
-                    if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
-                        alert(jsonXHR.message);
-                        window.location.href = "/salir";
-                    }
-
-                    return { status: xhr.status, body: JSON.parse(xhr.responseText) }
-
+                if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
+                    alert(jsonXHR.message);
+                    window.location.href = "/salir";
                 }
 
-            })
-            .then(function(response) {
+                return { status: xhr.status, body: JSON.parse(xhr.responseText) }
+
+            }
+
+        })
+            .then(function (response) {
 
                 let result = response.body;
 
@@ -192,7 +192,7 @@ class DataProvider {
 
 
             })
-            .catch(function(e) {
+            .catch(function (e) {
                 DataProvider.fetch();
             })
 
@@ -263,15 +263,15 @@ class dataView {
 
         if (!DataProvider.loader) {
             return m('table.w-100.mt-5.' + dataView.show, [
-                m('tbody', DataProvider.filteredData.map(function(d) {
+                m('tbody', DataProvider.filteredData.map(function (d) {
                     return [
                         m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
                             "style": { "border-color": "#0aa1eb" }
                         }, [
                             m("h4.mb-0", [
-                                    m("i.icofont-ui-user"),
-                                    " " + d['NOMBRE_PACIENTE']
-                                ]
+                                m("i.icofont-ui-user"),
+                                " " + d['NOMBRE_PACIENTE']
+                            ]
 
                             ),
                             m("div.media.",
@@ -304,8 +304,8 @@ class dataView {
 
                                     m("div.text-right", [
                                         m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
-                                                href: "/paciente/" + d['HC']
-                                            },
+                                            href: "/paciente/" + d['HC']
+                                        },
                                             " Ver Paciente "
                                         )
                                     ])
@@ -330,15 +330,15 @@ class dataViewInter {
     view() {
         if (!DataProvider.loader) {
             return m('table.w-100.mt-5.' + dataViewInter.show, [
-                m('tbody', DataProviderInter.filteredData.map(function(d) {
+                m('tbody', DataProviderInter.filteredData.map(function (d) {
                     return [
                         m("div.bg-white.pt-4.pl-4.pb-4.pr-4.info-box.m-mb-30.radius-5", {
                             "style": { "border-color": "#0aa1eb" }
                         }, [
                             m("h4.mb-0", [
-                                    m("i.icofont-ui-user"),
-                                    " " + d['NOMBRE_PACIENTE']
-                                ]
+                                m("i.icofont-ui-user"),
+                                " " + d['NOMBRE_PACIENTE']
+                            ]
 
                             ),
                             m("div.media.",
@@ -371,8 +371,8 @@ class dataViewInter {
 
                                     m("div.text-right", [
                                         m("a.btn.medim-btn.solid-btn.mt-4.text-medium.radius-pill.text-active.text-uppercase.bg-transparent.position-relative", {
-                                                href: "/paciente/" + d['HC']
-                                            },
+                                            href: "/paciente/" + d['HC']
+                                        },
                                             " Ver Paciente "
                                         )
                                     ])
@@ -476,7 +476,7 @@ class Pacientes extends App {
         this._setTitle = "Mis Pacientes";
     }
     static submitBusqueda() {
-        document.onkeypress = function(e) {
+        document.onkeypress = function (e) {
             if (!e) e = window.event;
             var keyCode = e.keyCode || e.which;
             if (keyCode == "13") {
@@ -527,9 +527,9 @@ class Pacientes extends App {
 
                                     }),
                                     m("label.custom-control-label[for='tratante']", [
-                                            ((Pacientes.codMedico == "0") ? "Emergencia" : "Soy Tratante"),
-                                            m(pageTool)
-                                        ]
+                                        ((Pacientes.codMedico == "0") ? "Emergencia" : "Soy Tratante"),
+                                        m(pageTool)
+                                    ]
 
                                     )
                                 ]),
@@ -558,7 +558,7 @@ class Pacientes extends App {
                             ]),
                             m("div.input-group.banenr-seach.bg-white.m-mt-30.mb-0", [
                                 m("input.form-control[type='text'][placeholder='Buscar por Apellidos y Nombres']", {
-                                    oninput: function(e) {
+                                    oninput: function (e) {
                                         e.target.value = e.target.value.toUpperCase();
                                         DataProvider.searchField = e.target.value;
                                     },
@@ -575,10 +575,10 @@ class Pacientes extends App {
                                         },
                                     }),
                                     m("button.btn[type='button'][id='actBuscar']", {
-                                            onclick: () => {
-                                                DataProvider.fetchBusqueda();
-                                            },
+                                        onclick: () => {
+                                            DataProvider.fetchBusqueda();
                                         },
+                                    },
                                         "Buscar"
                                     ),
 
@@ -604,13 +604,13 @@ class Pacientes extends App {
                     m("div.container",
                         m("div.row",
                             m("div.col-md-12", [
-                                    m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
-                                    m("p.mb-1.mt-1", [
-                                        m.trust("&copy;"),
-                                        new Date().getFullYear() + ". Todos los derechos reservados."
-                                    ])
+                                m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                m("p.mb-1.mt-1", [
+                                    m.trust("&copy;"),
+                                    new Date().getFullYear() + ". Todos los derechos reservados."
+                                ])
 
-                                ]
+                            ]
 
                             )
                         )
@@ -622,12 +622,7 @@ class Pacientes extends App {
                     )
                 )
             ]),
-            m("div.button-menu-center.text-center",
-                m("a.btn.fadeInDown-slide.position-relative.animated.pl-4.pr-4.lsp-0.no-border.bg-transparent.medim-btn.grad-bg--3.solid-btn.mt-0.text-medium.radius-pill.text-active.text-white.s-dp-1-2[href='/']", [
-                    m("i.icofont-home"),
-                    " Inicio "
-                ])
-            )
+
         ];
     }
 };

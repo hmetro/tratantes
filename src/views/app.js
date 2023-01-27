@@ -9,29 +9,23 @@ class App {
     constructor() {
         this.page = ' | MetroVirtual para Médicos';
     }
-
     get _getTitle() {
         return this.title;
     }
-
     set _setTitle(title) {
         this.title = title + this.page;
         document.title = this._getTitle;
-
     }
-
     oninit() {
         this.view = this._l;
-        setTimeout(function() {
+        setTimeout(function () {
             App.isAuth();
         }, 100)
-
     }
-
     oncreate() {
         this.mainLayout();
+        console.log('auth => ', Auth.getDataUser())
     }
-
     static isAuth() {
         if (Auth.isLogin()) {
             return m.route.set('/inicio');
@@ -58,13 +52,13 @@ class App {
             time: 1000
         });
 
-        $('.section-wave').each(function() {
+        $('.section-wave').each(function () {
 
             var self = $(this);
 
             $(this).waypoint({
                 offset: '85%',
-                handler: function() {
+                handler: function () {
                     self.addClass('active')
                 }
             });
@@ -75,7 +69,7 @@ class App {
         var sitckyHeader = $('.navbar-sticky');
         if (sitckyHeader.length > 0) {
             var navOffset = $('.navbar-sticky').offset().top;
-            $(window).on('scroll', function() {
+            $(window).on('scroll', function () {
                 var $cloneNav = $('.navbar-sticky').clone(true);
                 $cloneNav.addClass('sticky-active');
                 if ($(this).scrollTop() > navOffset) {
@@ -101,13 +95,13 @@ class App {
 
 
         //Anime js
-        $('.ml12').each(function() {
+        $('.ml12').each(function () {
             $(this).html($(this).text().replace(/([^\x00-\x80]|\w)/g, "<span class='letter'>$&</span>"));
         });
 
         anime.timeline({
-                loop: false
-            })
+            loop: false
+        })
             .add({
                 targets: '.ml12 .letter',
                 translateX: [40, 0],
@@ -115,10 +109,10 @@ class App {
                 opacity: [0, 1],
                 easing: "easeOutExpo",
                 duration: 1200,
-                delay: function(el, i) {
+                delay: function (el, i) {
                     return 500 + 30 * i;
                 },
-                complete: function() {
+                complete: function () {
                     anime({
                         targets: '.ml12 .letter',
                         opacity: 1,
@@ -135,10 +129,10 @@ class App {
                 opacity: [0, 1],
                 easing: "easeOutCirc",
                 duration: 800,
-                delay: function(el, i) {
+                delay: function (el, i) {
                     return 800 * i;
                 },
-                complete: function() {
+                complete: function () {
                     anime({
                         targets: '.ml15 .word',
                         opacity: 1,
@@ -161,36 +155,36 @@ class App {
             centerPadding: '0px',
             arrows: false,
             responsive: [{
-                    breakpoint: 992,
-                    settings: {
-                        centerMode: false,
-                        slidesToShow: 2
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        centerMode: false,
-                        slidesToShow: 2
-
-                    }
-                },
-                {
-                    breakpoint: 577,
-                    settings: {
-                        autoplay: true,
-                        centerMode: false,
-                        slidesToShow: 1
-                    }
-                },
-                {
-                    breakpoint: 300,
-                    settings: {
-                        autoplay: false,
-                        centerMode: false,
-                        slidesToShow: 1
-                    }
+                breakpoint: 992,
+                settings: {
+                    centerMode: false,
+                    slidesToShow: 2
                 }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    centerMode: false,
+                    slidesToShow: 2
+
+                }
+            },
+            {
+                breakpoint: 577,
+                settings: {
+                    autoplay: true,
+                    centerMode: false,
+                    slidesToShow: 1
+                }
+            },
+            {
+                breakpoint: 300,
+                settings: {
+                    autoplay: false,
+                    centerMode: false,
+                    slidesToShow: 1
+                }
+            }
             ]
 
         });
@@ -213,23 +207,23 @@ class App {
             autoplaySpeed: 2000,
             arrows: false,
             responsive: [{
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 4
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 2
-                    }
-                },
-                {
-                    breakpoint: 300,
-                    settings: {
-                        slidesToShow: 1
-                    }
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 4
                 }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 300,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
             ]
 
         });
@@ -241,23 +235,23 @@ class App {
             infinite: true,
             arrows: false,
             responsive: [{
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 2
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 1
-                    }
-                },
-                {
-                    breakpoint: 300,
-                    settings: {
-                        slidesToShow: 1
-                    }
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 2
                 }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1
+                }
+            },
+            {
+                breakpoint: 300,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
             ]
 
         });
@@ -266,7 +260,7 @@ class App {
 
 
         //Set background image for WordPress
-        $(".set-bg").each(function() {
+        $(".set-bg").each(function () {
             var thesrc = $(this).attr('data-bg');
             $(this).css("background-image", "url(" + thesrc + ")");
             $(this).css("background-position", "center");
@@ -282,13 +276,13 @@ class App {
         $('.js-example-basic-single').select2();
 
         // Convert All Image to SVG
-        $('img.svg').each(function() {
+        $('img.svg').each(function () {
             var $img = $(this),
                 imgID = $img.attr('id'),
                 imgClass = $img.attr('class'),
                 imgURL = $img.attr('src');
 
-            $.get(imgURL, function(data) {
+            $.get(imgURL, function (data) {
                 var $svg = $(data).find('svg');
                 if (typeof imgID !== 'undefined') {
                     $svg = $svg.attr('id', imgID);
@@ -303,7 +297,7 @@ class App {
         });
 
         //Burget Menu
-        $('.burger_menu').on('click', function(e) {
+        $('.burger_menu').on('click', function (e) {
             e.preventDefault();
             if (isMobile) {
                 moileMenu()
@@ -329,7 +323,7 @@ class App {
         });
 
         //For drop down navigation
-        $('.hs_dropdown > a').on('click', function(e) {
+        $('.hs_dropdown > a').on('click', function (e) {
             var hash = this.hash;
             if ($(this).attr('href') != '' || hash) {
                 e.preventDefault();
@@ -342,7 +336,7 @@ class App {
 
         var wWidth = $(window).width();
         var isMobile = wWidth < 992;
-        $(window).on('resize', function() {
+        $(window).on('resize', function () {
             wWidth = $(window).width();
             isMobile = wWidth < 992;
             if (wWidth >= 992) {
@@ -352,7 +346,7 @@ class App {
         });
 
         function moileMenu() {
-            $('.hs_dropdown').on('click', function(ev) {
+            $('.hs_dropdown').on('click', function (ev) {
                 //ev.preventDefault();
                 ev = window.event || ev;
                 ev.stopPropagation();
@@ -376,7 +370,7 @@ class App {
 
 
         //ripple Effect
-        $(".banenr").on('click', function(e) {
+        $(".banenr").on('click', function (e) {
 
             // Remove any old one
             $(".ripple").remove();
@@ -413,21 +407,21 @@ class App {
         var documentHeight = $(document).height();
         var scrollableHeight = documentHeight / 1.70;
         $('.scroll-top').hide();
-        $(window).on('scroll', function() {
+        $(window).on('scroll', function () {
             if ($(this).scrollTop() > scrollableHeight) {
                 $('.scroll-top').show();
             } else {
                 $('.scroll-top').hide();
             }
         });
-        $('.scroll-top').on('click', function() {
+        $('.scroll-top').on('click', function () {
             $("html, body").animate({ scrollTop: 0 }, "slow");
         });
 
         //Venobox
         $('.venobox').venobox();
         //Check Content block children
-        $('.content-block').each(function(index, el) {
+        $('.content-block').each(function (index, el) {
             if ($(this).children().length > 0) {
                 $(this).addClass('has-content')
             }
@@ -436,7 +430,7 @@ class App {
 
         /* ----------------------------------
         ----------------------------------*/
-        $(document).on('mouseup', function(e) {
+        $(document).on('mouseup', function (e) {
             var container = $(".nav_outer,.burger_menu");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 $('.burger_menu').removeClass('is-open');
@@ -449,7 +443,7 @@ class App {
 
         // Makin Wp Frindly Parallax image
 
-        $('.parallax-window').each(function() {
+        $('.parallax-window').each(function () {
             var image = $(this).attr('data-bg');
             $(this).parallax({
                 imageSrc: image
@@ -458,11 +452,11 @@ class App {
 
 
         //Mouse Move
-        $(window).on('load', function() {
+        $(window).on('load', function () {
             var wrapper = document.querySelector('.banenr.type-2');
             if ($('.banenr.type-2').length > 0) {
                 var layerOne = document.querySelector('.inner-image');
-                wrapper.addEventListener('mousemove', function(e) {
+                wrapper.addEventListener('mousemove', function (e) {
                     var pageX = e.clientX,
                         pageY = e.clientY;
                     layerOne.style.webkitTransform = 'translateX(' + pageX / 250 + '%) translateY(' + pageY / 250 + '%)';
@@ -473,7 +467,7 @@ class App {
         });
 
         //Windows Load
-        $(window).on('load', function() {
+        $(window).on('load', function () {
             var wrapper = document.querySelector('.banenr.type-4');
             if ($('.banenr.type-4').length > 0) {
                 var layerOne = document.querySelector('.logo-box');
@@ -481,7 +475,7 @@ class App {
                 var layerThree = document.querySelector('.banenr.type-4  .btn');
                 var layerFour = document.querySelector('.banenr.type-4  h1');
                 var layerFive = document.querySelector('.banenr.type-4  .no-border');
-                wrapper.addEventListener('mousemove', function(e) {
+                wrapper.addEventListener('mousemove', function (e) {
                     var pageX = e.clientX,
                         pageY = e.clientY;
                     layerOne.style.webkitTransform = 'translateX(' + pageX / 240 + '%) translateY(' + pageY / 40 + '%)';
@@ -508,12 +502,12 @@ class App {
 
 
 
-        $(window).on('load', function() {
+        $(window).on('load', function () {
             if (windowHeight <= 800) {
-                $('.banenr.type-4 .banner-inner').each(function(index, el) {
+                $('.banenr.type-4 .banner-inner').each(function (index, el) {
                     $(this).addClass('full-height');
                 });
-                $('.reversed-margin.appoint-area').each(function(index, el) {
+                $('.reversed-margin.appoint-area').each(function (index, el) {
                     $(this).addClass('low-banner-height');
                 });
             } else {
@@ -526,7 +520,7 @@ class App {
 
             });
 
-            $('.pricing-filter li').on('click', function() {
+            $('.pricing-filter li').on('click', function () {
                 $(this).addClass('active').siblings().removeClass('active');
                 var filterValue = $(this).attr('data-filter');
                 $('.grid').isotope({
@@ -537,13 +531,13 @@ class App {
 
             var grid = $('.grid');
             if (grid.length > 0) {
-                grid.each(function(index, el) {
+                grid.each(function (index, el) {
                     $('.grid').isotope({
                         itemSelector: '.grid-item'
 
                     });
 
-                    $('.filter li').on('click', function() {
+                    $('.filter li').on('click', function () {
                         $(this).addClass('active').siblings().removeClass('active');
                         var filterValue = $(this).attr('data-filter');
                         $('.grid').isotope({
@@ -557,8 +551,8 @@ class App {
 
 
         // Content schedule
-        $(window).on("load resize scroll", function(e) {
-            $('.content-block').each(function() {
+        $(window).on("load resize scroll", function (e) {
+            $('.content-block').each(function () {
                 if ($(this).children('div').length > 0) {
 
                 } else {

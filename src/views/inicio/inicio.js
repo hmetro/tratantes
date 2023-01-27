@@ -5,7 +5,7 @@ import App from '../app';
 import Loader from '../loader';
 
 class Inicio extends App {
-
+    static user = null;
     constructor() {
         super();
     }
@@ -17,7 +17,7 @@ class Inicio extends App {
         this._setTitle = "Inicio";
         this.view = this._p;
         let $this = this;
-        setTimeout(function() {
+        setTimeout(function () {
             $this.view = $this._p;
             m.redraw();
         }, 3000)
@@ -26,6 +26,8 @@ class Inicio extends App {
 
 
     _p() {
+
+        Inicio.user = Auth.getDataUser();
         return [
             m(HeaderPrivate),
             m(MenuPanel),
