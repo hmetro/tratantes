@@ -11,13 +11,20 @@ class Inicio extends App {
     }
 
     oninit() {
+
+
         if (!Auth.isLogin()) {
             return m.route.set('/auth');
         }
+
+
         this._setTitle = "Inicio";
         this.view = this._p;
         let $this = this;
-        setTimeout(function () {
+
+        Inicio.user = Auth.getDataUser();
+
+        setTimeout(function() {
             $this.view = $this._p;
             m.redraw();
         }, 3000)
@@ -27,7 +34,6 @@ class Inicio extends App {
 
     _p() {
 
-        Inicio.user = Auth.getDataUser();
         return [
             m(HeaderPrivate),
             m(MenuPanel),
