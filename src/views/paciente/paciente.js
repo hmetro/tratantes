@@ -1714,7 +1714,7 @@ class WidgetsSV {
                                                         style: { "cursor": "pointer", "background-color": "#ea7600" },
                                                         onclick: () => {
                                                             SignosVitales.nameReporte = "Curva de Presión Sistólica / Diastólica";
-                                                            SignosVitales.verReporte("http://172.16.253.18/report-executor/mvreport?name=USR_CURVA_PRESION_SP&cdMultiEmpresa=1&cdAtendimento=" + Formulario.adm);
+                                                            SignosVitales.verReporte({ idReport: 'PSD', numAtencion: Formulario.adm });
                                                         }
                                                     },
                                                     m("span.icofont-patient-file"),
@@ -1750,7 +1750,7 @@ class WidgetsSV {
                                                         style: { "cursor": "pointer", "background-color": "#ea7600" },
                                                         onclick: () => {
                                                             SignosVitales.nameReporte = "Curva de Frecuencia Cardíaca";
-                                                            SignosVitales.verReporte("http://172.16.253.18/report-executor/mvreport?name=USR_CURVA_FREQCARDIACA_SP&cdMultiEmpresa=1&cdAtendimento=" + Formulario.adm);
+                                                            SignosVitales.verReporte({ idReport: 'FC', numAtencion: Formulario.adm });
                                                         }
                                                     },
                                                     m("span.icofont-patient-file"),
@@ -1855,7 +1855,7 @@ class WidgetsSV {
                                                         style: { "cursor": "pointer", "background-color": "#ea7600" },
                                                         onclick: () => {
                                                             SignosVitales.nameReporte = "Curva Térmica";
-                                                            SignosVitales.verReporte("http://172.16.253.18/report-executor/mvreport?name=USR_CURVA_TERMICA_SP&cdMultiEmpresa=1&cdAtendimento=" + Formulario.adm);
+                                                            SignosVitales.verReporte({ idReport: 'TEMP', numAtencion: Formulario.adm });
                                                         }
                                                     },
                                                     m("span.icofont-patient-file"),
@@ -1950,15 +1950,13 @@ class SignosVitales {
     static loader = false;
     static loadReporte = false;
     static nameReporte = "";
-    static verReporte(url) {
+    static verReporte(data) {
         SignosVitales.loader = true;
         window.scrollTo({ top: 0, behavior: 'smooth' });
         m.request({
                 method: "POST",
                 url: "https://api.hospitalmetropolitano.org/v2/medicos/reportes",
-                body: {
-                    url: url
-                },
+                body: data,
                 headers: {
                     "Authorization": localStorage.accessToken,
                 },
