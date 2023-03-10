@@ -20,6 +20,7 @@ import Transferencias from '../views/honorarios/transferencias';
 import Registro from '../views/registro/registro';
 import Verify from '../views/verify';
 import LostPass from '../views/lostpass/lostpass';
+import HonoAuditados from '../views/honorarios/honoAuditados';
 
 
 // Routes here
@@ -38,6 +39,7 @@ const Routes = {
     '/viewer/:id': ViewerImg, // ViewerImg
     '/mi-perfil': MiPerfil, // MiPerfil
     '/honorarios': Honorarios, // Honorarios
+    '/honorarios/auditados': HonoAuditados, //HonoAuditados
     '/honorarios/facturas-pagadas': FacturasPagadas, //FacturasPagadas
     '/honorarios/facturas-pendientes': FacturasPendientes, // FacturasPendientes
     '/honorarios/estado-de-cuenta': EstadoCuenta, // EstadoCuenta
