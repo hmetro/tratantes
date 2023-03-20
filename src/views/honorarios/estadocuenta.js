@@ -16,36 +16,52 @@ class EstadoCuenta extends App {
         }
         EstadoCuenta.fetch();
     }
+    oncreate() {
+
+        EstadoCuenta.stateEstadoCuenta();
+    }
     static fetch() {
         m.request({
-            method: "POST",
-            url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-facturas-pendientes?typeFilter=1",
-            headers: {
-                "Authorization": localStorage.accessToken,
-            },
-            extract: function (xhr) {
+                method: "POST",
+                url: "https://api.hospitalmetropolitano.org/v2/medicos/mis-facturas-pendientes?typeFilter=1",
+                headers: {
+                    "Authorization": localStorage.accessToken,
+                },
+                extract: function(xhr) {
 
-                let jsonXHR = JSON.parse(xhr.responseText);
+                    let jsonXHR = JSON.parse(xhr.responseText);
 
-                if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
-                    alert(jsonXHR.message);
-                    window.location.href = "/salir";
+                    if (xhr.status === 500 && jsonXHR.status == false && jsonXHR.errorCode == 0) {
+                        alert(jsonXHR.message);
+                        window.location.href = "/salir";
+                    }
+
+                    return { status: xhr.status, body: JSON.parse(xhr.responseText) }
+
                 }
-
-                return { status: xhr.status, body: JSON.parse(xhr.responseText) }
-
-            }
-        })
-            .then(function (response) {
+            })
+            .then(function(response) {
                 let result = response.body;
                 EstadoCuenta.codMedico = result.codMedico;
             })
-            .catch(function (e) {
+            .catch(function(e) {
                 EstadoCuenta.fetch();
             })
     }
     static downloadEstadoCuenta() {
         window.location = 'https://api.hospitalmetropolitano.org/h2/v0/controlador/descarga_documentos/preparar_estado_cuenta.php?proveedor=' + EstadoCuenta.codMedico + '&fecha_desde=' + EstadoCuenta.fechaDesde + '&fecha_hasta=' + EstadoCuenta.fechaHasta;
+    }
+    static stateEstadoCuenta() {
+        m.request({
+                method: "GET",
+                url: "https://api.hospitalmetropolitano.org/v2/medicos/estado-cuenta",
+                headers: {
+                    "Authorization": localStorage.accessToken,
+                },
+
+            })
+            .then(function(response) {})
+            .catch(function(e) {})
     }
     view() {
         return [
@@ -79,7 +95,7 @@ class EstadoCuenta extends App {
                             m("label.d-inline", 'Desde:'),
 
                             m("input.form-control[type='date'][placeholder='Desde'][id='fechaDesde']", {
-                                oninput: function (e) {
+                                oninput: function(e) {
                                     let valMeses = moment().subtract(5, 'months').format('YYYY-MM-DD');
                                     let _val = moment(valMeses, 'YYYY-MM-DD').unix();
                                     let _ival = moment(e.target.value, 'YYYY-MM-DD').unix();
@@ -94,7 +110,7 @@ class EstadoCuenta extends App {
                             m("label.d-inline", 'Hasta:'),
 
                             m("input.form-control[type='date'][placeholder='Desde'][id='fechaDesde']", {
-                                oninput: function (e) {
+                                oninput: function(e) {
                                     let valMeses = moment().subtract(5, 'months').format('YYYY-MM-DD');
                                     let _val = moment(valMeses, 'YYYY-MM-DD').unix();
                                     let _ival = moment(e.target.value, 'YYYY-MM-DD').unix();
@@ -109,10 +125,10 @@ class EstadoCuenta extends App {
                             m("div.input-group-append",
 
                                 m("button.btn[type='button'][id='actDescargarEC']", {
-                                    onclick: () => {
-                                        EstadoCuenta.downloadEstadoCuenta();
+                                        onclick: () => {
+                                            EstadoCuenta.downloadEstadoCuenta();
+                                        },
                                     },
-                                },
                                     "Descargar"
                                 ),
 

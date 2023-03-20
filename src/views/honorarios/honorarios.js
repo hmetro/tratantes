@@ -30,7 +30,7 @@ class Modulos {
             }
 
             if (i.id == 2) {
-                return m("div.col-sm-12.col-md-12.col-lg-6",
+                return m("div.col-sm-12.col-md-12.col-lg-6.d-none",
                     m("a", {
                         href: i.url,
 
