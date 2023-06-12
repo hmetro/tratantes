@@ -9,6 +9,8 @@ class App {
     constructor() {
         this.page = ' | MetroVirtual para Médicos';
     }
+
+
     get _getTitle() {
         return this.title;
     }
@@ -20,7 +22,7 @@ class App {
         this.view = this._l;
         setTimeout(function () {
             App.isAuth();
-        }, 100)
+        }, 100);
     }
     oncreate() {
         this.mainLayout();

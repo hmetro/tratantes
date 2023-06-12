@@ -53,8 +53,10 @@ class Modulos {
                         style: {
                             "cursor": "pointer"
                         },
+
                         onclick: (e) => {
-                            window.location.href = "https://appdocumentosdirmed.azurewebsites.net/DM/Login/Auth2Factor/" + Inicio.user.data.user + "/" + localStorage.accessToken;
+                            window.location.href = "https://appdocumentosdirmed.azurewebsites.net/app/access/" + Inicio.user.data.user + "/" + localStorage.accessToken.substring(0, 15);
+
                         }
 
                     }, [
