@@ -12,7 +12,7 @@ let _modulos_ = [
 
 class Modulos {
     view() {
-        return _modulos_.map(function(i) {
+        return _modulos_.map(function (i) {
 
             if (i.id == 1) {
                 return m("div.col-sm-12.col-md-12.col-lg-6",
@@ -148,13 +148,13 @@ class Honorarios extends App {
                         m("div.container",
                             m("div.row",
                                 m("div.col-md-12", [
-                                        m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
-                                        m("p.mb-1.mt-1", [
-                                            m.trust("&copy;"),
-                                            new Date().getFullYear() + ". Todos los derechos reservados."
-                                        ])
+                                    m("img[alt='HM'][src='assets/images/logo-hm.svg'][width='75rem']"),
+                                    m("p.mb-1.mt-1", [
+                                        m.trust("&copy;"),
+                                        new Date().getFullYear() + ". Todos los derechos reservados."
+                                    ])
 
-                                    ]
+                                ]
 
                                 )
                             )
